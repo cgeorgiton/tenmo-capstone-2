@@ -90,4 +90,18 @@ public class Transfer {
     public void setTransferType(String transferType) {
         this.transferType = transferType;
     }
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "transferId=" + transferId +
+                ", amount=" + amount +
+                ", accountFromId=" + accountFromId +
+                ", accountToId=" + accountToId +
+                ", description='" + description + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", status='" + status + '\'' +
+                ", transferType='" + transferType + '\'' +
+                '}';
+    }
 }
