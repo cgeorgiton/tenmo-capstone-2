@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
@@ -82,6 +83,14 @@ public class ConsoleService {
     public void pause() {
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
+    }
+
+    public void printUsers(User[] users) {
+        if (users != null) {
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+        }
     }
 
     public void printErrorMessage() {

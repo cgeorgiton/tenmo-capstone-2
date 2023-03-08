@@ -1,12 +1,14 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.security.Principal;
+import java.util.List;
 
 public class App {
 
@@ -108,13 +110,19 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
+        User[] users = accountService.getAllUsers();
+        if (users != null) {
+            consoleService.printUsers(users);
+        } else {
+            consoleService.printErrorMessage();
+        }
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

@@ -10,6 +10,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 public class AccountService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -21,9 +23,9 @@ public class AccountService {
     public User[] getAllUsers() {
         User[] users = null;
         try {
-            users = restTemplate.getForObject(baseUrl + "users", User[].class);
+            users = restTemplate.getForObject("http://localhost:8080/users", User[].class);
         } catch (ResourceAccessException | RestClientResponseException e) {
-            return null;
+            BasicLogger.log(e.getMessage());
         }
         return users;
     }
