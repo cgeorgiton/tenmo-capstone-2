@@ -14,7 +14,7 @@ public class JdbcAccountDAO implements AccountDAO {
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    public JdbcAccountDAO(JdbcTemplate jdbcTemplate) {
+    public JdbcAccountDAO() {
         this.jdbcTemplate = jdbcTemplate;
     }
 

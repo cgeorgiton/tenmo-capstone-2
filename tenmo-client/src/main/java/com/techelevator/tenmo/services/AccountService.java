@@ -21,7 +21,7 @@ public class AccountService {
     public User[] getAllUsers() {
         User[] users = null;
         try {
-            users = restTemplate.getForObject(baseUrl + "hotels", User[].class);
+            users = restTemplate.getForObject(baseUrl + "users", User[].class);
         } catch (ResourceAccessException | RestClientResponseException e) {
             return null;
         }
