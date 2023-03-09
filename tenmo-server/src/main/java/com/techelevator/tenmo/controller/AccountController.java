@@ -29,7 +29,10 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
-        accountDao.transaction(transfer.getAccountFromId(), transfer.);
+
+        accountDao.completeTransaction(transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount());
+
+
     }
 
 

@@ -39,8 +39,8 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public boolean transaction(int fromAccountId, int toAccountId, BigDecimal amount) {
-        return false;
+    public Transfer completeTransaction(int fromAccountId, int toAccountId, BigDecimal amount) {
+        return null;
     }
 
     @Override
