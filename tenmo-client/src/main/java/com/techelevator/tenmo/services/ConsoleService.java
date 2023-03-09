@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -96,12 +97,13 @@ public class ConsoleService {
         scanner.nextLine();
     }
 
-    public void printUsers(User[] users) {
+    public void printUsers(User[] users, String currentUsername) {
         System.out.println("\nAll available users:");
         int i = 1;
         for(User user : users) {
-            System.out.println(String.format("\t%d: %s", i, user.getUsername()));
-            i++;
+                System.out.println(String.format("\t%d: %s", i, user.getUsername()));
+                i++;
+
         }
     }
 

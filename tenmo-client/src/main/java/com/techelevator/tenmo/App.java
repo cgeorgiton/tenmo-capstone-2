@@ -88,7 +88,7 @@ public class App {
             } else if (menuSelection == 0) {
                 continue;
             } else {
-                System.out.println("Invalid Selection");
+                System.out.println("\nInvalid Selection");
             }
             consoleService.pause();
         }
@@ -115,11 +115,7 @@ public class App {
         send.setTransferType("Send");
         send.setTransferType("Approved");
 
-        User[] users = getUsers();
-        int transferAccountId = selectUser(users);
-
-        boolean validInput = false;
-
+        int transferAccountId = selectUser();
         BigDecimal amount = consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: ");
 
 
@@ -132,8 +128,8 @@ public class App {
         request.setStatus("Pending");
         request.setTransferType("Request");
 
-        User[] users = getUsers();
-        int requestAccountId = selectUser(users);
+        int requestAccountId = selectUser();
+        BigDecimal amount = consoleService.promptForBigDecimal("\nHow much money do you want to request?: ");
         // TODO complete requestBucks()
     }
 
@@ -141,21 +137,22 @@ public class App {
         return accountService.getAllUsers();
     }
 
-    private int selectUser(User[] users) {
-        consoleService.printUsers(users);
+    private int selectUser() {
+        User[] users = getUsers();
+        consoleService.printUsers(users, currentUser.getUser().getUsername());
 
         int userInput = -1;
         boolean validInput = false;
 
         while (!validInput) {
             userInput = consoleService.promptForInt("\nPlease select a user: ");
-            if (userInput <= 0 || userInput > users.length) {
+            if (userInput <= 0 || userInput > users.length || currentUser.getUser().getUsername().equals(users[userInput - 1].getUsername())) {
                 System.out.println("\nInvalid Selection");
             } else {
                 validInput = true;
             }
         }
 
-        return users[userInput -1].getId();
+        return users[userInput-1].getId();
     }
 }

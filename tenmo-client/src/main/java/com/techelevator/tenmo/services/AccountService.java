@@ -35,7 +35,6 @@ public class AccountService {
             BasicLogger.log(e.getMessage());
         }
         return users;
-
     }
 
     public Account getCurrentUserAccount() {
