@@ -5,6 +5,7 @@ import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +16,21 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+@RequestMapping("/accounts")
 public class AccountController {
     private AccountDao accountDao;
     private UserDao userDao;
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
     public AccountController(AccountDao accountDAO, UserDao userDao) {
         this.accountDao = accountDAO;
         this.userDao = userDao;
     }
-
-
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/transaction", method = RequestMethod.POST)
+    public Transfer completeTransaction(@RequestBody Transfer transfer) {
+        accountDao.transaction(transfer.getAccountFromId(), transfer.);
+    }
 
 
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)
@@ -34,6 +38,8 @@ public class AccountController {
         return accountDao.listAll(userDao.findIdByUsername(principal.getName()));
     // TODO make sure transfers work
     }
+
+
 
     // TODO transfers by user_id
     // TODO create request
