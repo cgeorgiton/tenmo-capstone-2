@@ -92,7 +92,7 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
+		// TODO complete viewCurrentBalance()
 
         //call accountService.getBalance()
         //print out balances
@@ -101,29 +101,47 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
+		// TODO complete viewTransferHistory()
 		
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+		// TODO complete viewPendingRequests()
 		
 	}
 
 	private void sendBucks() {
-        User[] users = accountService.getAllUsers();
+        User[] users = getAllUsers();
+        int userInput = 0;
+        boolean isValid = false;
+        while(!isValid) {
+            userInput = consoleService.promptForInt("\nPlease select a user: ");
+            if (userInput <= 0 || userInput > users.length) {
+                System.out.println("\nInvalid Selection");
+            } else {
+                isValid = true;
+            }
+        }
+
+        System.out.println(users[userInput -1].getId());
+
+
+        // TODO complete sendBucks()
+        // TODO add exit to main menu
+	}
+
+	private void requestBucks() {
+        User[] users = getAllUsers();
+        // TODO complete requestBucks()
+	}
+
+    private User[] getAllUsers() {
+       User[] users = accountService.getAllUsers();
         if (users != null) {
             consoleService.printUsers(users);
         } else {
             consoleService.printErrorMessage();
         }
-	}
-
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
+        return users;
+    }
 }
