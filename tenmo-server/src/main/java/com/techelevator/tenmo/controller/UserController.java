@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.*;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,11 +17,12 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class UserController {
     private UserDao userDao;
+    private AccountDao accountDao;
+    private JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
-    public UserController(UserDao userDao) {
+    public UserController(UserDao userDao, AccountDao accountDao) {
         this.userDao = userDao;
+        this.accountDao = accountDao;
     }
 
     @RequestMapping(path = "/users", method = RequestMethod.GET)
@@ -28,6 +30,12 @@ public class UserController {
         return userDao.findAll();
     }
 
+    @RequestMapping(path = "/users/account", method = RequestMethod.GET)
+    public Account getUserBalance(Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getCurrentUserAccount(userId);
+
+    }
 }
 
 

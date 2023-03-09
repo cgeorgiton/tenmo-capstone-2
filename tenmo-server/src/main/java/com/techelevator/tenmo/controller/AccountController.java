@@ -26,11 +26,8 @@ public class AccountController {
         this.userDao = userDao;
     }
 
-    @RequestMapping(path = "/users/account", method = RequestMethod.GET)
-    public Account getUserBalance(Principal principal) {
-        int userId = userDao.findIdByUsername(principal.getName());
-        return accountDao.getCurrentUserAccount(userId);
-    }
+
+
 
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(Principal principal) {
