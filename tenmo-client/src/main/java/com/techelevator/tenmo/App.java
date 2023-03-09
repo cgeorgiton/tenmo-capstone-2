@@ -112,8 +112,22 @@ public class App {
 
 	private void sendBucks() {
         User[] users = getAllUsers();
+        int userInput = 0;
+        boolean isValid = false;
+        while(!isValid) {
+            userInput = consoleService.promptForInt("\nPlease select a user: ");
+            if (userInput <= 0 || userInput > users.length) {
+                System.out.println("\nInvalid Selection");
+            } else {
+                isValid = true;
+            }
+        }
+
+        System.out.println(users[userInput -1].getId());
+
 
         // TODO complete sendBucks()
+        // TODO add exit to main menu
 	}
 
 	private void requestBucks() {

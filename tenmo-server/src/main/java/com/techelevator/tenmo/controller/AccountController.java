@@ -4,9 +4,7 @@ import com.techelevator.tenmo.dao.*;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +27,12 @@ public class AccountController {
     public List<User> findAllUsers() {
         return userDao.findAll();
     }
+
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable int id) { return userDao.getUserById(id);
+    }
+
+
 
     // TODO get user by ID
     // TODO transfers by user_id

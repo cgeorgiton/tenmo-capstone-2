@@ -64,7 +64,7 @@ public class ConsoleService {
             try {
                 return Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a number.");
+                System.out.println("Please enter a number: ");
             }
         }
     }
@@ -75,7 +75,7 @@ public class ConsoleService {
             try {
                 return new BigDecimal(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a decimal number.");
+                System.out.println("Please enter a decimal number: ");
             }
         }
     }
@@ -86,10 +86,11 @@ public class ConsoleService {
     }
 
     public void printUsers(User[] users) {
-        if (users != null) {
-            for (User user : users) {
-                System.out.println(user.getUsername());
-            }
+        System.out.println("\nAll available users:");
+        int i = 1;
+        for(User user : users) {
+            System.out.println(String.format("\t%d: %s", i, user.getUsername()));
+            i++;
         }
     }
 
