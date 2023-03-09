@@ -13,31 +13,21 @@ import java.util.List;
 @RestController
 @PreAuthorize("isAuthenticated()")
 public class AccountController {
-<<<<<<< HEAD
-=======
-    private AccountDAO accountDAO;
+    private AccountDao accountDao;
     private UserDao userDao;
-    private TransferDAO transferDAO;
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    public AccountController(AccountDAO accountDAO, UserDao userDao, TransferDAO transferDAO) {
-        this.accountDAO = accountDAO;
+    public AccountController(AccountDao accountDAO, UserDao userDao) {
+        this.accountDao = accountDAO;
         this.userDao = userDao;
-        this.transferDAO = transferDAO;
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.GET)
-    public List<User> findAllUsers() {
-        return userDao.findAll();
+    @RequestMapping(path = "/transfers", method = RequestMethod.GET)
+    public List<Transfer> listAllTransfers(Principal principal) {
+
+        return accountDao.listAll(userDao.findIdByUsername(principal.getName()));
     }
-
-    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable int id) { return userDao.getUserById(id);
-    }
-
-
-
     // TODO get user by ID
     // TODO transfers by user_id
     // TODO create request
@@ -47,22 +37,4 @@ public class AccountController {
 
 
 }
->>>>>>> d297d60741c679336174ebfd038d5dc33bd07a32
 
-       private AccountDao accountDao;
-       private UserDao userDao;
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
-        public AccountController(AccountDao accountDao) {
-            this.accountDao = accountDao;
-        }
-
-        @RequestMapping(path = "/transfers", method = RequestMethod.GET)
-        public List<Transfer> listAllTransfers(Principal principal) {
-
-            return accountDao.listAll(userDao.findIdByUsername(principal.getName()));
-        }
-
-
-}

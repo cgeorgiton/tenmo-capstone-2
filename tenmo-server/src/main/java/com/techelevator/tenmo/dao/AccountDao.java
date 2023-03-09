@@ -18,6 +18,5 @@ public interface AccountDao {
 
     public Transfer createTransfer(Transfer transfer);
 
-
     // TODO add delete method
 }
