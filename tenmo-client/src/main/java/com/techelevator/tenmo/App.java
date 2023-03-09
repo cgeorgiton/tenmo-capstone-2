@@ -7,6 +7,7 @@ import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -92,15 +93,15 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
+        BigDecimal balance = accountService.getCurrentUserAccount().getBalance();
+        System.out.println(String.format("\nYour current balance is $%.2f", balance));
 		// TODO complete viewCurrentBalance()
 
-        //call accountService.getBalance()
-        //print out balances
-
-		
 	}
 
 	private void viewTransferHistory() {
+
+
 		// TODO complete viewTransferHistory()
 		
 	}
@@ -122,9 +123,6 @@ public class App {
                 isValid = true;
             }
         }
-
-        System.out.println(users[userInput -1].getId());
-
 
         // TODO complete sendBucks()
         // TODO add exit to main menu

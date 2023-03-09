@@ -2,11 +2,14 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -23,12 +26,18 @@ public class AccountController {
         this.userDao = userDao;
     }
 
+    @RequestMapping(path = "/users/account", method = RequestMethod.GET)
+    public Account getUserBalance(Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getCurrentUserAccount(userId);
+    }
+
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(Principal principal) {
-
         return accountDao.listAll(userDao.findIdByUsername(principal.getName()));
+    // TODO make sure transfers work
     }
-    // TODO get user by ID
+
     // TODO transfers by user_id
     // TODO create request
     // TODO create transfer
