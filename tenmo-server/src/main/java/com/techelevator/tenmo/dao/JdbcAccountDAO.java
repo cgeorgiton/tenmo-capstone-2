@@ -1,17 +1,19 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
-public class JdbcAccountDAO implements AccountDAO {
+public class JdbcAccountDao implements AccountDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcAccountDAO(JdbcTemplate jdbcTemplate) {
+    public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -26,12 +28,27 @@ public class JdbcAccountDAO implements AccountDAO {
     }
 
     @Override
-    public BigDecimal withdraw(int accountId, BigDecimal amount) {
+    public boolean transaction(int fromAccountId, int toAccountId, BigDecimal amount) {
+        return false;
+    }
+
+    @Override
+    public List<Transfer> listAll(int accountId) {
         return null;
     }
 
     @Override
-    public BigDecimal deposit(int accountId, BigDecimal amount) {
+    public List<Transfer> listFiltered(String status) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(int transferId) {
+        return false;
+    }
+
+    @Override
+    public Transfer createTransfer(Transfer transfer) {
         return null;
     }
 
