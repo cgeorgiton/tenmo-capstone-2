@@ -95,7 +95,7 @@ public class ConsoleService {
         }
     }
 
-    public void printTransfer(Transfer transfer) {
+    public void printTransfer(Transfer transfer, String username) {
         System.out.println(String.format("You are sending %.2f to %s\n", transfer.getAmount(), username));
         System.out.println("Do you want to complete this transaction? (Y/N)");
     }

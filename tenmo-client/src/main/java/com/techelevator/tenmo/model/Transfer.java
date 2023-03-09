@@ -16,15 +16,15 @@ public class Transfer {
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int accountFromId, int accountToId, String description, boolean isDeleted) {
+    public Transfer(int transferId, BigDecimal amount, int accountFromId, int accountToId, String description, boolean isDeleted, String status, String transferType) {
         this.transferId = transferId;
         this.amount = amount;
         this.accountFromId = accountFromId;
         this.accountToId = accountToId;
         this.description = description;
         this.isDeleted = isDeleted;
-        this.status = "Approved";
-        this.transferType = "Send";
+        this.status = status;
+        this.transferType = transferType;
     }
 
     public int getTransferId() {

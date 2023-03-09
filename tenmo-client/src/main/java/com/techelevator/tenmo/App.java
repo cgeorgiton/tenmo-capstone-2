@@ -111,39 +111,47 @@ public class App {
     }
 
     private void sendBucks() {
-        User[] users = getAllUsers();
-        consoleService.printUsers(users);
+        Transfer send = new Transfer();
+        send.setTransferType("Send");
+        send.setTransferType("Approved");
+
+        User[] users = getUsers();
+        int transferAccountId = selectUser(users);
+        consoleService.promptForBigDecimal("How much money do you want to transfer?");
 
         // TODO complete sendBucks()
         // TODO add exit to main menu
     }
 
     private void requestBucks() {
-        User[] users = getAllUsers();
-        consoleService.printUsers(users);
+        Transfer request = new Transfer();
+        request.setStatus("Pending");
+        request.setTransferType("Request");
+
+        User[] users = getUsers();
+        int requestAccountId = selectUser(users);
         // TODO complete requestBucks()
     }
 
-    private User[] getAllUsers() {
+    private User[] getUsers() {
         return accountService.getAllUsers();
     }
 
-    private Transfer initiateTransfer(String transferType) {
-        Transfer transfer = new Transfer();
+    private int selectUser(User[] users) {
+        consoleService.printUsers(users);
 
-        User[] users = getAllUsers();
+        int userInput = -1;
+        boolean validInput = false;
 
-        int userInput = 0;
-        boolean isValid = false;
-
-        while (!isValid) {
+        while (!validInput) {
             userInput = consoleService.promptForInt("\nPlease select a user: ");
             if (userInput <= 0 || userInput > users.length) {
                 System.out.println("\nInvalid Selection");
             } else {
-                isValid = true;
+                validInput = true;
             }
         }
-        return new Transfer();
+
+        return users[userInput -1].getId();
     }
 }
