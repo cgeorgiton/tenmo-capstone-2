@@ -61,24 +61,34 @@ public class ConsoleService {
 
     public int promptForInt(String prompt) {
         System.out.print(prompt);
-        while (true) {
+        int amount = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
             try {
-                return Integer.parseInt(scanner.nextLine());
+                amount = Integer.parseInt(scanner.nextLine());
+                validInput = true;
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a number: ");
+                System.out.print("\nPlease enter a number: ");
             }
         }
+        return amount;
     }
 
     public BigDecimal promptForBigDecimal(String prompt) {
         System.out.print(prompt);
-        while (true) {
+        BigDecimal amount = BigDecimal.ZERO;
+        boolean validInput = false;
+
+        while (!validInput) {
             try {
-                return new BigDecimal(scanner.nextLine());
+                amount =  new BigDecimal(scanner.nextLine());
+                validInput = true;
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a decimal number: ");
+                System.out.print("\nPlease enter a decimal number: ");
             }
         }
+        return amount;
     }
 
     public void pause() {

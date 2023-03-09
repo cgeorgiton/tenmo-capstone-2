@@ -117,7 +117,11 @@ public class App {
 
         User[] users = getUsers();
         int transferAccountId = selectUser(users);
-        consoleService.promptForBigDecimal("How much money do you want to transfer?");
+
+        boolean validInput = false;
+
+        BigDecimal amount = consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: ");
+
 
         // TODO complete sendBucks()
         // TODO add exit to main menu
