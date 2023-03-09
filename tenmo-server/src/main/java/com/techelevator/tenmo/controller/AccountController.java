@@ -29,6 +29,15 @@ public class AccountController {
     public List<User> findAllUsers() {
         return userDao.findAll();
     }
+
+    // TODO get user by ID
+    // TODO transfers by user_id
+    // TODO create request
+    // TODO create transfer
+    // TODO get account info by ID
+    // TODO get balance by ID
+
+
 }
 
 

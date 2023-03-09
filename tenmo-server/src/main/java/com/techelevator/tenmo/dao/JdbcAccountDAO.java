@@ -23,15 +23,19 @@ public class JdbcAccountDAO implements AccountDAO {
                 "FROM account " +
                 "WHERE account_id = ?;";
          return jdbcTemplate.queryForObject(sql, BigDecimal.class, accountId);
+
+         // TODO complete getBalance()
     }
 
     @Override
     public BigDecimal withdraw(int accountId, BigDecimal amount) {
+        // TODO complete withdraw()
         return null;
     }
 
     @Override
     public BigDecimal deposit(int accountId, BigDecimal amount) {
+        // TODO complete deposit()
         return null;
     }
 

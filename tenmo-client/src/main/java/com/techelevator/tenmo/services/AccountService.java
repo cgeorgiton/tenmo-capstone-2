@@ -33,17 +33,18 @@ public class AccountService {
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-
         return users;
     }
 
     /*private HttpEntity<Reservation> makeReservationEntity(Reservation reservation) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.APPLICATION_JSON); // TODO create HttpEntity<Transfer> can Transfer also be used for Request??
         headers.setBearerAuth(authToken);
         return new HttpEntity<>(reservation, headers);
     }*/
 
+    // TODO create HttpEntity<Request>
+    // TODO create HttpEntity<Account>
     /**
      * Returns an HttpEntity with the `Authorization: Bearer:` header
      */
@@ -52,6 +53,4 @@ public class AccountService {
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
     }
-
-    // TODO look into authenticating users
 }

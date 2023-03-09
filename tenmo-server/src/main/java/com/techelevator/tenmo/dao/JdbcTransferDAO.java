@@ -16,21 +16,27 @@ public class JdbcTransferDAO implements TransferDAO{
 
     @Override
     public List<Transfer> list(int accountId) {
+        // TODO complete list()
         return null;
     }
 
     @Override
     public Transfer addTransfer(Transfer transfer) {
+        // TODO complete addTransfer()
         return null;
     }
 
     @Override
     public boolean update(Transfer updatedTransfer) {
+        // TODO complete update()
         return false;
     }
 
     @Override
     public boolean delete(int transferId) {
+        // TODO complete delete()
         return false;
     }
+
+    // TODO complete mapRowToTransfer
 }

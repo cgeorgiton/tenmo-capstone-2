@@ -30,19 +30,19 @@ public class ConsoleService {
 
     public void printLoginMenu() {
         System.out.println();
-        System.out.println("1: Register"); // TODO prompt to register, redirect people here if you're not a user
-        System.out.println("2: Login"); // TODO prompt for login, verification
-        System.out.println("0: Exit"); // TODO Stop program
+        System.out.println("1: Register");
+        System.out.println("2: Login");
+        System.out.println("0: Exit");
         System.out.println();
     }
 
     public void printMainMenu() {
         System.out.println();
-        System.out.println("1: View your current balance"); // TODO method for viewing balance
-        System.out.println("2: View your past transfers"); // TODO method for viewing transfers with ID
-        System.out.println("3: View your pending requests"); // TODO method for pending requests
-        System.out.println("4: Send TE bucks"); // TODO method for transfer
-        System.out.println("5: Request TE bucks"); // TODO method for requesting TE bucks
+        System.out.println("1: View your current balance");
+        System.out.println("2: View your past transfers");
+        System.out.println("3: View your pending requests");
+        System.out.println("4: Send TE bucks");
+        System.out.println("5: Request TE bucks");
         System.out.println("0: Exit");
         System.out.println();
     }
@@ -96,5 +96,4 @@ public class ConsoleService {
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");
     }
-
 }
