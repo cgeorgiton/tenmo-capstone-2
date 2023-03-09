@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
@@ -33,6 +34,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -92,30 +94,49 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
+    private void viewCurrentBalance() {
         BigDecimal balance = accountService.getCurrentUserAccount().getBalance();
         System.out.println(String.format("\nYour current balance is $%.2f", balance));
-		// TODO complete viewCurrentBalance()
+    }
 
-	}
+    private void viewTransferHistory() {
 
-	private void viewTransferHistory() {
+        // TODO complete viewTransferHistory()
 
+    }
 
-		// TODO complete viewTransferHistory()
-		
-	}
+    private void viewPendingRequests() {
+        // TODO complete viewPendingRequests()
 
-	private void viewPendingRequests() {
-		// TODO complete viewPendingRequests()
-		
-	}
+    }
 
-	private void sendBucks() {
+    private void sendBucks() {
         User[] users = getAllUsers();
+        consoleService.printUsers(users);
+
+        // TODO complete sendBucks()
+        // TODO add exit to main menu
+    }
+
+    private void requestBucks() {
+        User[] users = getAllUsers();
+        consoleService.printUsers(users);
+        // TODO complete requestBucks()
+    }
+
+    private User[] getAllUsers() {
+        return accountService.getAllUsers();
+    }
+
+    private Transfer initiateTransfer(String transferType) {
+        Transfer transfer = new Transfer();
+
+        User[] users = getAllUsers();
+
         int userInput = 0;
         boolean isValid = false;
-        while(!isValid) {
+
+        while (!isValid) {
             userInput = consoleService.promptForInt("\nPlease select a user: ");
             if (userInput <= 0 || userInput > users.length) {
                 System.out.println("\nInvalid Selection");
@@ -123,23 +144,6 @@ public class App {
                 isValid = true;
             }
         }
-
-        // TODO complete sendBucks()
-        // TODO add exit to main menu
-	}
-
-	private void requestBucks() {
-        User[] users = getAllUsers();
-        // TODO complete requestBucks()
-	}
-
-    private User[] getAllUsers() {
-       User[] users = accountService.getAllUsers();
-        if (users != null) {
-            consoleService.printUsers(users);
-        } else {
-            consoleService.printErrorMessage();
-        }
-        return users;
+        return new Transfer();
     }
 }

@@ -31,8 +31,7 @@ public class AccountController {
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
 
         accountDao.completeTransaction(transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount());
-
-
+        return new Transfer();
     }
 
 

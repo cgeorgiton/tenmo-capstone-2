@@ -95,6 +95,17 @@ public class ConsoleService {
         }
     }
 
+    public void printTransfer(Transfer transfer) {
+        System.out.println(String.format("You are sending %.2f to %s\n", transfer.getAmount(), username));
+        System.out.println("Do you want to complete this transaction? (Y/N)");
+    }
+
+    public void printRequest(Transfer transfer, String username) {
+        System.out.println(String.format("You are requesting %.2f from %s\n", transfer.getAmount(), username));
+        System.out.println("Do you want to complete this transaction? (Y/N)");
+    }
+
+
     /*public void printTransfers(String status, Transfer[] transfers) {
         System.out.println(String.format("\nHere is your %s transfer history:", status));
         for(Transfer transfer : transfers) {

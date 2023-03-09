@@ -78,8 +78,6 @@ public class AccountService {
         return new HttpEntity<>(reservation, headers);
     }*/
 
-    // TODO create HttpEntity<Request>
-    // TODO create HttpEntity<Account>
     /**
      * Returns an HttpEntity with the `Authorization: Bearer:` header
      */
