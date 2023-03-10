@@ -10,8 +10,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
-
 public class AccountService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -52,25 +50,6 @@ public class AccountService {
         return currentAccount;
     }
 
-    public Account getAccountByUserId(int userId) {
-        Account account = new Account();
-        account.setAccountId(0);
-        account.setBalance(BigDecimal.valueOf(0.0));
-        account.setUserId(userId);
-
-        Account returnedAccount = new Account();
-
-        try {
-            ResponseEntity<Account> response =
-                    restTemplate.exchange(baseUrl + "accounts/userid",
-                            HttpMethod.GET, makeAccountEntity(account), Account.class);
-            returnedAccount = response.getBody();
-        } catch (RestClientResponseException | ResourceAccessException e) {
-            BasicLogger.log(e.getMessage());
-        }
-        return returnedAccount;
-    }
-
     public Transfer[] viewAllTransfers() {
         Transfer[] transfers = null;
 
@@ -95,9 +74,13 @@ public class AccountService {
         return new HttpEntity<>(account, headers);
     }
 
-    /**
-     * Returns an HttpEntity with the `Authorization: Bearer:` header
-     */
+    private HttpEntity<User> makeUserEntity(User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(currentUser.getToken());
+        return new HttpEntity<>(user, headers);
+    }
+
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());

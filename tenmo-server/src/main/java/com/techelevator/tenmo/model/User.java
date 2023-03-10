@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,10 +16,11 @@ public class User {
    @JsonIgnore
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
+   // TODO get authorities into client side
 
    public User() { }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username,String password, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;

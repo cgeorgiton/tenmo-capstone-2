@@ -40,7 +40,7 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public Transfer completeTransaction(int fromAccountId, int toAccountId, BigDecimal amount) {
-        return null;
+        return null; // TODO complete transaction
     }
 
     @Override
@@ -51,7 +51,7 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public List<Transfer> listFiltered(String status) {
-        return null;
+        return null; // TODO do we need filtered list
     }
 
     @Override
@@ -68,20 +68,6 @@ public class JdbcAccountDao implements AccountDao {
                 "?, ?, ?, ?, ?) RETURNING transfer_id;";
 
         return jdbcTemplate.update(sql, transfer.getTransferType(), transfer.getStatus(), transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount(), transfer.getDescription(), transfer.isDeleted());
-    }
-
-    @Override
-    public Account getAccountByUserId(int userId) {
-        String sql = "SELECT account.account_id, account.user_id, account.balance " +
-                "FROM account " +
-                "WHERE user_id = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
-
-        if (results.next()) {
-            return mapRowToAccount(results);
-        } else {
-            return null;
-        }
     }
 
     private Account mapRowToAccount(SqlRowSet rowSet) {

@@ -111,9 +111,12 @@ public class ConsoleService {
 
     public void printTransactionSummary(Transfer transfer, String username) {
         String requestOrTransfer = transfer.getTransferType().equalsIgnoreCase("send") ? "sending" : "requesting";
+        String toOrFrom = requestOrTransfer.equals("requesting") ? "from" : "to";
 
-        System.out.println(String.format("\nYou are %s %.2f to %s\n", requestOrTransfer, transfer.getAmount(), username));
+        System.out.println(String.format("\n<<< You are %s $%.2f %s %s >>>\n",
+                                        requestOrTransfer, transfer.getAmount(), toOrFrom, username));
     }
+
 
     /*public void printTransfers(String status, Transfer[] transfers) {
         System.out.println(String.format("\nHere is your %s transfer history:", status));

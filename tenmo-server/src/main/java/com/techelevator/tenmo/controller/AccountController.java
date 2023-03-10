@@ -32,11 +32,11 @@ public class AccountController {
         int userId = userDao.findIdByUsername(principal.getName());
         return accountDao.getCurrentUserAccount(userId);
     }
-
-    @RequestMapping(path = "/userid", method = RequestMethod.GET)
-    public Account getAccountByUserId(@RequestBody User user) {
-        return accountDao.getAccountByUserId(user.getId());
-    }
+/*
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public Account getAccountByUserId(@PathVariable String username) {
+        return accountDao.getAccountByUsername(username);
+    }*/
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)

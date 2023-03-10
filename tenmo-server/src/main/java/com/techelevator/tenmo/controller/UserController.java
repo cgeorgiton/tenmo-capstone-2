@@ -29,7 +29,7 @@ public class UserController {
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<User> findAllUsers() {
-        return userDao.findAll();
+        return userDao.findAllUsersAndAccountId();
     }
 }
 

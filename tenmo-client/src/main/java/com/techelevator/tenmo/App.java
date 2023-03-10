@@ -1,19 +1,11 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class App {
 
@@ -117,10 +109,11 @@ public class App {
         Transfer send = new Transfer();
         send.setTransferType("Send");
         send.setStatus("Approved");
-        send.setAccountFromId(accountService.getCurrentUserAccount().getAccountId());
+        send.setUserIdFrom(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
-        send.setAccountToId(accountService.getAccountByUserId(selectedUser.getId()).getAccountId());
+        System.out.println(selectedUser.getUsername() + " " + selectedUser.getId());
+        send.setUserIdTo(selectedUser.getId());
 
         send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
         send.setDescription(getDescription());
@@ -145,14 +138,26 @@ public class App {
         Transfer request = new Transfer();
         request.setTransferType("Request");
         request.setStatus("Pending");
-        request.setAccountToId(accountService.getCurrentUserAccount().getAccountId());
+        request.setUserIdTo(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
-        request.setAccountFromId(accountService.getAccountByUserId(selectedUser.getId()).getAccountId());
+        request.setUserIdFrom(selectedUser.getId());
 
         request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
         request.setDescription(getDescription());
 
+        consoleService.printTransactionSummary(request, selectedUser.getUsername());
+
+        while (true) {
+            String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
+            if(userInput.equalsIgnoreCase("Y")) {
+
+            } else if(userInput.equals("N")) {
+                break;
+            } else {
+                System.out.println("\nPlease only enter Y for yes or N for no\n");
+            }
+        }
 
         // TODO complete requestBucks()
     }

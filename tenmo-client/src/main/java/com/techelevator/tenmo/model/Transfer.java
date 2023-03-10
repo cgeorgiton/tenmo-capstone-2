@@ -6,8 +6,8 @@ public class Transfer {
 
     private int transferId;
     private BigDecimal amount;
-    private int accountFromId;
-    private int accountToId;
+    private int userIdFrom;
+    private int userIdTo;
     private String description;
     private boolean isDeleted;
     private String status;
@@ -16,11 +16,11 @@ public class Transfer {
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int accountFromId, int accountToId, String description, String status, String transferType) {
+    public Transfer(int transferId, BigDecimal amount, int userIdFrom, int userIdTo, String description, String status, String transferType) {
         this.transferId = transferId;
         this.amount = amount;
-        this.accountFromId = accountFromId;
-        this.accountToId = accountToId;
+        this.userIdFrom = userIdFrom;
+        this.userIdTo = userIdTo;
         this.description = description;
         this.isDeleted = false;
         this.status = status;
@@ -43,20 +43,20 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public int getAccountFromId() {
-        return accountFromId;
+    public int getUserIdFrom() {
+        return userIdFrom;
     }
 
-    public void setAccountFromId(int accountFromId) {
-        this.accountFromId = accountFromId;
+    public void setUserIdFrom(int userIdFrom) {
+        this.userIdFrom = userIdFrom;
     }
 
-    public int getAccountToId() {
-        return accountToId;
+    public int getUserIdTo() {
+        return userIdTo;
     }
 
-    public void setAccountToId(int accountToId) {
-        this.accountToId = accountToId;
+    public void setUserIdTo(int userIdTo) {
+        this.userIdTo = userIdTo;
     }
 
     public String getDescription() {
@@ -96,8 +96,8 @@ public class Transfer {
         return "Transfer{" +
                 "transferId=" + transferId +
                 ", amount=" + amount +
-                ", accountFromId=" + accountFromId +
-                ", accountToId=" + accountToId +
+                ", userIdFrom=" + userIdFrom +
+                ", userIdTo=" + userIdTo +
                 ", description='" + description + '\'' +
                 ", isDeleted=" + isDeleted +
                 ", status='" + status + '\'' +
