@@ -41,11 +41,9 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
-
-        accountDao.completeTransaction(transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount());
+        accountDao.completeTransaction(transfer);
         return new Transfer();
     }
-
 
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(Principal principal) {

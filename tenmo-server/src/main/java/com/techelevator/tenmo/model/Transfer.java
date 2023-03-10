@@ -12,19 +12,23 @@ public class Transfer {
     private boolean isDeleted;
     private String status;
     private String transferType;
+    private int userFromId;
+    private int userToId;
 
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int accountFromId, int accountToId, String description, boolean isDeleted) {
+    public Transfer(int transferId, BigDecimal amount, int accountFromId, int accountToId, String description, boolean isDeleted, String status, String transferType, int userFromId, int userToId) {
         this.transferId = transferId;
         this.amount = amount;
         this.accountFromId = accountFromId;
         this.accountToId = accountToId;
         this.description = description;
-        this.isDeleted = isDeleted;
-        this.status = "Approved";
-        this.transferType = "Send";
+        this.isDeleted = false;
+        this.status = status;
+        this.transferType = transferType;
+        this.userFromId = userFromId;
+        this.userToId = userToId;
     }
 
     public int getTransferId() {
@@ -91,6 +95,22 @@ public class Transfer {
         this.transferType = transferType;
     }
 
+    public int getUserFromId() {
+        return userFromId;
+    }
+
+    public void setUserFromId(int userFromId) {
+        this.userFromId = userFromId;
+    }
+
+    public int getUserToId() {
+        return userToId;
+    }
+
+    public void setUserToId(int userToId) {
+        this.userToId = userToId;
+    }
+
     @Override
     public String toString() {
         return "Transfer{" +
@@ -102,6 +122,8 @@ public class Transfer {
                 ", isDeleted=" + isDeleted +
                 ", status='" + status + '\'' +
                 ", transferType='" + transferType + '\'' +
+                ", userFromId=" + userFromId +
+                ", userToId=" + userToId +
                 '}';
     }
 }

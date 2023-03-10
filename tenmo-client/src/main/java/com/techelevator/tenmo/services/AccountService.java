@@ -50,6 +50,16 @@ public class AccountService {
         return currentAccount;
     }
 
+    public Transfer makeTransaction(Transfer transfer){
+        Transfer returnedTransfer = null;
+        try {
+            returnedTransfer = restTemplate.postForObject(baseUrl + "accounts/transaction", makeTransferEntity(transfer), Transfer.class);
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return returnedTransfer;
+    }
+
     public Transfer[] viewAllTransfers() {
         Transfer[] transfers = null;
 
@@ -74,11 +84,11 @@ public class AccountService {
         return new HttpEntity<>(account, headers);
     }
 
-    private HttpEntity<User> makeUserEntity(User user) {
+    private HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(currentUser.getToken());
-        return new HttpEntity<>(user, headers);
+        return new HttpEntity<>(transfer, headers);
     }
 
     private HttpEntity<Void> makeAuthEntity() {

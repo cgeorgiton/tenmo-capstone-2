@@ -112,7 +112,6 @@ public class App {
         send.setUserIdFrom(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
-        System.out.println(selectedUser.getUsername() + " " + selectedUser.getId());
         send.setUserIdTo(selectedUser.getId());
 
         send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
@@ -123,6 +122,7 @@ public class App {
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if(userInput.equalsIgnoreCase("Y")) {
+            accountService.makeTransaction(send);
 
             } else if(userInput.equals("N")) {
                 break;

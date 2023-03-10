@@ -39,7 +39,18 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Transfer completeTransaction(int fromAccountId, int toAccountId, BigDecimal amount) {
+    public Transfer completeTransaction(Transfer transfer) {
+        //create new transfer in database
+            String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount, description, deleted) " +
+                    "VALUES ((SELECT transfer_type.transfer_type_id FROM transfer_type WHERE transfer_type_desc = ?), " +
+                    "(SELECT transfer_status.transfer_status_id FROM transfer_status WHERE transfer_status_desc = ?), " +
+                    "(SELECT account.account_id FROM account WHERE user_id = ?), " +
+                    "(SELECT account.account_id FROM account WHERE user_id = ?), ?, ?, ?) RETURNING transfer_id;";
+
+            int newTransferId = jdbcTemplate.update(sql, transfer.getTransferType(), transfer.getStatus(), transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount(), transfer.getDescription(), transfer.isDeleted());
+            transfer.setTransferId(newTransferId);
+
+
         return null; // TODO complete transaction
     }
 
@@ -57,17 +68,6 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public boolean delete(int transferId) {
         return false;
-    }
-
-    @Override
-    public int createTransfer(Transfer transfer) {
-        String sql = "INSERT INTO public.transfer( " +
-                "transfer_type_id, transfer_status_id, account_from, account_to, amount, description, deleted) " +
-                "VALUES ((SELECT transfer_type.transfer_type_id FROM transfer_type WHERE transfer_type.transfer_type_description = ?), " +
-                "(SELECT transfer_type.transfer_status_id FROM transfer_status WHERE transfer_type.transfer_status_description = ?), " +
-                "?, ?, ?, ?, ?) RETURNING transfer_id;";
-
-        return jdbcTemplate.update(sql, transfer.getTransferType(), transfer.getStatus(), transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount(), transfer.getDescription(), transfer.isDeleted());
     }
 
     private Account mapRowToAccount(SqlRowSet rowSet) {

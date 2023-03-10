@@ -9,7 +9,7 @@ import java.util.List;
 public interface AccountDao {
     public Account getCurrentUserAccount(int userId);
 
-    public Transfer completeTransaction(int fromAccountId, int toAccountId, BigDecimal amount);
+    public Transfer completeTransaction(Transfer transfer);
 
     public List<Transfer> listAll(int userId);
 
@@ -17,7 +17,6 @@ public interface AccountDao {
 
     public boolean delete(int transferId);
 
-    public int createTransfer(Transfer transfer);
 
 
     // TODO add delete method
