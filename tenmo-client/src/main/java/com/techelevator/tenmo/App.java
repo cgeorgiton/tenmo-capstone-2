@@ -10,7 +10,9 @@ import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class App {
@@ -114,11 +116,15 @@ public class App {
     private void sendBucks() {
         Transfer send = new Transfer();
         send.setTransferType("Send");
-        send.setTransferType("Approved");
+        send.setStatus("Approved");
+        send.setAccountFromId(accountService.getCurrentUserAccount().getAccountId());
 
-        int transferAccountId = selectUser();
+        User selectedUser = selectUser();
+        send.setAccountToId(accountService.getAccountByUserId(selectedUser.getId()).getAccountId());
+
         send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
         send.setDescription(getDescription());
+        consoleService.printTransactionSummary(send, );
 
         // TODO complete sendBucks()
         // TODO add exit to main menu
@@ -126,13 +132,16 @@ public class App {
 
     private void requestBucks() {
         Transfer request = new Transfer();
-        request.setStatus("Pending");
         request.setTransferType("Request");
+        request.setStatus("Pending");
+        request.setAccountToId(accountService.getCurrentUserAccount().getAccountId());
 
-        int requestAccountId = selectUser();
+        User selectedUser = selectUser();
+        request.setAccountFromId(accountService.getAccountByUserId(selectedUser.getId()).getAccountId());
 
         request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
         request.setDescription(getDescription());
+
 
         // TODO complete requestBucks()
     }
@@ -141,7 +150,7 @@ public class App {
         return accountService.getAllUsers();
     }
 
-    private int selectUser() {
+    private User selectUser() {
         User[] users = getUsers();
         consoleService.printUsers(users, currentUser.getUser().getUsername());
 
@@ -156,7 +165,8 @@ public class App {
                 validInput = true;
             }
         }
-        return users[userInput-1].getId();
+
+        return users[userInput -1];
     }
 
     private String getDescription() {
