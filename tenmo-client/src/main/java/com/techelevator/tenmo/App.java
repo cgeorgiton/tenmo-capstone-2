@@ -11,6 +11,7 @@ import com.techelevator.tenmo.services.ConsoleService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
 
@@ -116,8 +117,8 @@ public class App {
         send.setTransferType("Approved");
 
         int transferAccountId = selectUser();
-        BigDecimal amount = consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: ");
-
+        send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
+        send.setDescription(getDescription());
 
         // TODO complete sendBucks()
         // TODO add exit to main menu
@@ -129,7 +130,10 @@ public class App {
         request.setTransferType("Request");
 
         int requestAccountId = selectUser();
-        BigDecimal amount = consoleService.promptForBigDecimal("\nHow much money do you want to request?: ");
+
+        request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
+        request.setDescription(getDescription());
+
         // TODO complete requestBucks()
     }
 
@@ -152,7 +156,17 @@ public class App {
                 validInput = true;
             }
         }
-
         return users[userInput-1].getId();
+    }
+
+    private String getDescription() {
+        String description = "";
+        boolean validInput = false;
+
+        while(!validInput) {
+            description = consoleService.promptForString("\nPlease enter a description for this transaction (It cannot be blank): ");
+            validInput = description.equals("\n") || description.isEmpty() ? false : true;
+        }
+        return description;
     }
 }

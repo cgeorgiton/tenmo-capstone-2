@@ -50,7 +50,7 @@ public class ConsoleService {
     }
 
     public UserCredentials promptForCredentials() {
-        String username = promptForString("Username: ");
+        String username = promptForString("\nUsername: ");
         String password = promptForString("Password: ");
         return new UserCredentials(username, password);
     }
@@ -83,10 +83,13 @@ public class ConsoleService {
 
         while (!validInput) {
             try {
-                amount =  new BigDecimal(scanner.nextLine());
+                amount = new BigDecimal(scanner.nextLine());
+                if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                    throw new NumberFormatException();
+                }
                 validInput = true;
             } catch (NumberFormatException e) {
-                System.out.print("\nPlease enter a decimal number: ");
+                System.out.print("\nPlease enter a decimal number greater than $0.00: ");
             }
         }
         return amount;
@@ -100,10 +103,9 @@ public class ConsoleService {
     public void printUsers(User[] users, String currentUsername) {
         System.out.println("\nAll available users:");
         int i = 1;
-        for(User user : users) {
-                System.out.println(String.format("\t%d: %s", i, user.getUsername()));
-                i++;
-
+        for (User user : users) {
+            System.out.println(String.format("\t%d: %s", i, user.getUsername()));
+            i++;
         }
     }
 
