@@ -70,6 +70,20 @@ public class JdbcAccountDao implements AccountDao {
         return jdbcTemplate.update(sql, transfer.getTransferType(), transfer.getStatus(), transfer.getAccountFromId(), transfer.getAccountToId(), transfer.getAmount(), transfer.getDescription(), transfer.isDeleted());
     }
 
+    @Override
+    public Account getAccountByUserId(int userId) {
+        String sql = "SELECT account.account_id, account.user_id, account.balance " +
+                "FROM account " +
+                "WHERE user_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+
+        if (results.next()) {
+            return mapRowToAccount(results);
+        } else {
+            return null;
+        }
+    }
+
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
 

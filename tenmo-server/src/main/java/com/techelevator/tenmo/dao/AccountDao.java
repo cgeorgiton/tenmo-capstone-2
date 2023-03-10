@@ -19,5 +19,8 @@ public interface AccountDao {
 
     public int createTransfer(Transfer transfer);
 
+    public Account getAccountByUserId(int userId);
+
+
     // TODO add delete method
 }

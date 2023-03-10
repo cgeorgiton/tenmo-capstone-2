@@ -112,8 +112,7 @@ public class ConsoleService {
     public void printTransactionSummary(Transfer transfer, String username) {
         String requestOrTransfer = transfer.getTransferType().equalsIgnoreCase("send") ? "sending" : "requesting";
 
-        System.out.println(String.format("You are %s %.2f to %s\n", requestOrTransfer, transfer.getAmount(), username));
-        System.out.println("Do you want to complete this transaction? (Y/N)");
+        System.out.println(String.format("\nYou are %s %.2f to %s\n", requestOrTransfer, transfer.getAmount(), username));
     }
 
     /*public void printTransfers(String status, Transfer[] transfers) {

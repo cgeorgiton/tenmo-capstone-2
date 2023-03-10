@@ -43,7 +43,7 @@ public class AccountService {
         Account currentAccount = null;
         try {
             ResponseEntity<Account> response =
-                    restTemplate.exchange(baseUrl + "users/account/current",
+                    restTemplate.exchange(baseUrl + "accounts/current",
                             HttpMethod.GET, makeAuthEntity(), Account.class);
             currentAccount = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
@@ -62,7 +62,7 @@ public class AccountService {
 
         try {
             ResponseEntity<Account> response =
-                    restTemplate.exchange(baseUrl + "users/account/userid",
+                    restTemplate.exchange(baseUrl + "accounts/userid",
                             HttpMethod.GET, makeAccountEntity(account), Account.class);
             returnedAccount = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {

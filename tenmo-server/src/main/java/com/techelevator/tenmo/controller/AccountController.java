@@ -26,6 +26,18 @@ public class AccountController {
         this.accountDao = accountDAO;
         this.userDao = userDao;
     }
+
+    @RequestMapping(path = "/current", method = RequestMethod.GET)
+    public Account getCurrentAccount(Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getCurrentUserAccount(userId);
+    }
+
+    @RequestMapping(path = "/userid", method = RequestMethod.GET)
+    public Account getAccountByUserId(@RequestBody User user) {
+        return accountDao.getAccountByUserId(user.getId());
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {

@@ -124,8 +124,19 @@ public class App {
 
         send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
         send.setDescription(getDescription());
-        consoleService.printTransactionSummary(send, );
 
+        consoleService.printTransactionSummary(send, selectedUser.getUsername());
+
+        while (true) {
+            String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
+            if(userInput.equalsIgnoreCase("Y")) {
+
+            } else if(userInput.equals("N")) {
+                break;
+            } else {
+                System.out.println("\nPlease only enter Y for yes or N for no\n");
+            }
+        }
         // TODO complete sendBucks()
         // TODO add exit to main menu
     }
@@ -166,16 +177,16 @@ public class App {
             }
         }
 
-        return users[userInput -1];
+        return users[userInput - 1];
     }
 
     private String getDescription() {
         String description = "";
         boolean validInput = false;
 
-        while(!validInput) {
+        while (!validInput) {
             description = consoleService.promptForString("\nPlease enter a description for this transaction (It cannot be blank): ");
-            validInput = description.equals("\n") || description.isEmpty() ? false : true;
+            validInput = !description.equals("\n") && !description.isEmpty();
         }
         return description;
     }
