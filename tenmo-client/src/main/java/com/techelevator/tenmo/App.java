@@ -14,6 +14,11 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final int REQUEST = 1;
+    private final int SEND = 2;
+    private final int PENDING = 1;
+    private final int APPROVED = 2;
+    private final int REJECTED = 3;
 
     private AuthenticatedUser currentUser;
 
@@ -107,12 +112,12 @@ public class App {
 
     private void sendBucks() {
         Transfer send = new Transfer();
-        send.setTransferType("Send");
-        send.setStatus("Approved");
-        send.setUserIdFrom(currentUser.getUser().getId());
+        send.setTransferTypeId(SEND);
+        send.setTransferStatusId(APPROVED);
+        send.setUserFromId(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
-        send.setUserIdTo(selectedUser.getId());
+        send.setUserToId(selectedUser.getId());
 
         send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
         send.setDescription(getDescription());
@@ -121,10 +126,12 @@ public class App {
 
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
-            if(userInput.equalsIgnoreCase("Y")) {
-            accountService.makeTransaction(send);
+            if (userInput.equalsIgnoreCase("Y")) {
+                Transfer updatedTransfer = new Transfer();
+                updatedTransfer = accountService.makeTransaction(send);
+                consoleService.printTransfers(updatedTransfer);
 
-            } else if(userInput.equals("N")) {
+            } else if (userInput.equals("N")) {
                 break;
             } else {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");
@@ -136,12 +143,12 @@ public class App {
 
     private void requestBucks() {
         Transfer request = new Transfer();
-        request.setTransferType("Request");
-        request.setStatus("Pending");
-        request.setUserIdTo(currentUser.getUser().getId());
+        request.setTransferTypeId(REQUEST);
+        request.setTransferStatusId(PENDING);
+        request.setUserToId(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
-        request.setUserIdFrom(selectedUser.getId());
+        request.setUserFromId(selectedUser.getId());
 
         request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
         request.setDescription(getDescription());
@@ -150,9 +157,9 @@ public class App {
 
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
-            if(userInput.equalsIgnoreCase("Y")) {
+            if (userInput.equalsIgnoreCase("Y")) {
 
-            } else if(userInput.equals("N")) {
+            } else if (userInput.equals("N")) {
                 break;
             } else {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");

@@ -53,7 +53,8 @@ public class AccountService {
     public Transfer makeTransaction(Transfer transfer){
         Transfer returnedTransfer = null;
         try {
-            returnedTransfer = restTemplate.postForObject(baseUrl + "accounts/transaction", makeTransferEntity(transfer), Transfer.class);
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "accounts/transaction", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
+            returnedTransfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }

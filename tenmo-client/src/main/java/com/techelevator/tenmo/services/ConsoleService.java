@@ -118,13 +118,11 @@ public class ConsoleService {
     }
 
 
-    /*public void printTransfers(String status, Transfer[] transfers) {
-        System.out.println(String.format("\nHere is your %s transfer history:", status));
-        for(Transfer transfer : transfers) {
-            System.out.println("Sender username: %s\n" +
-                               "Receiver username: %s\n" +
-                                "Amount sent: %f.2", transfer.getAccountFromId(), transfer.getAccountToId());
-        }*/
+    public void printTransfers(Transfer transfer) {
+        System.out.println(String.format("\nHere is your transfer history:"));
+            System.out.println(String.format("transfer id: %s\n" +
+                                "Amount sent: %f.2", transfer.getTransferId(), transfer.getAmount()));
+        }
 
 
     public void printErrorMessage() {

@@ -32,7 +32,8 @@ public class AccountController {
         int userId = userDao.findIdByUsername(principal.getName());
         return accountDao.getCurrentUserAccount(userId);
     }
-/*
+
+    /*
     @RequestMapping(path = "/user", method = RequestMethod.GET)
     public Account getAccountByUserId(@PathVariable String username) {
         return accountDao.getAccountByUsername(username);
@@ -41,8 +42,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
-        accountDao.completeTransaction(transfer);
-        return new Transfer();
+        return accountDao.completeTransaction(transfer);
     }
 
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)

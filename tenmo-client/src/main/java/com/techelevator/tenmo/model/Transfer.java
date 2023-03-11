@@ -3,28 +3,25 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transfer {
-
     private int transferId;
     private BigDecimal amount;
-    private int userIdFrom;
-    private int userIdTo;
+    private int userFromId;
+    private int userToId;
     private String description;
-    private boolean isDeleted;
-    private String status;
-    private String transferType;
+    private int transferStatusId;
+    private int transferTypeId;
 
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int userIdFrom, int userIdTo, String description, String status, String transferType) {
+    public Transfer(int transferId, BigDecimal amount, int userFromId, int userToId, String description, int transferStatusId, int transferTypeId) {
         this.transferId = transferId;
         this.amount = amount;
-        this.userIdFrom = userIdFrom;
-        this.userIdTo = userIdTo;
+        this.userFromId = userFromId;
+        this.userToId = userToId;
         this.description = description;
-        this.isDeleted = false;
-        this.status = status;
-        this.transferType = transferType;
+        this.transferStatusId = transferStatusId;
+        this.transferTypeId = transferTypeId;
     }
 
     public int getTransferId() {
@@ -43,20 +40,20 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public int getUserIdFrom() {
-        return userIdFrom;
+    public int getUserFromId() {
+        return userFromId;
     }
 
-    public void setUserIdFrom(int userIdFrom) {
-        this.userIdFrom = userIdFrom;
+    public void setUserFromId(int userFromId) {
+        this.userFromId = userFromId;
     }
 
-    public int getUserIdTo() {
-        return userIdTo;
+    public int getUserToId() {
+        return userToId;
     }
 
-    public void setUserIdTo(int userIdTo) {
-        this.userIdTo = userIdTo;
+    public void setUserToId(int userToId) {
+        this.userToId = userToId;
     }
 
     public String getDescription() {
@@ -67,28 +64,20 @@ public class Transfer {
         this.description = description;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
+    public int getTransferStatusId() {
+        return transferStatusId;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setTransferStatusId(int transferStatusId) {
+        this.transferStatusId = transferStatusId;
     }
 
-    public String getStatus() {
-        return status;
+    public int getTransferTypeId() {
+        return transferTypeId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTransferType() {
-        return transferType;
-    }
-
-    public void setTransferType(String transferType) {
-        this.transferType = transferType;
+    public void setTransferTypeId(int transferTypeId) {
+        this.transferTypeId = transferTypeId;
     }
 
     @Override
@@ -96,12 +85,11 @@ public class Transfer {
         return "Transfer{" +
                 "transferId=" + transferId +
                 ", amount=" + amount +
-                ", userIdFrom=" + userIdFrom +
-                ", userIdTo=" + userIdTo +
+                ", userFromId=" + userFromId +
+                ", userToId=" + userToId +
                 ", description='" + description + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", status='" + status + '\'' +
-                ", transferType='" + transferType + '\'' +
+                ", transferStatusId=" + transferStatusId +
+                ", transferTypeId=" + transferTypeId +
                 '}';
     }
 }
