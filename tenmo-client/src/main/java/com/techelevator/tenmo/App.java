@@ -111,7 +111,7 @@ public class App {
     }
 
     private void sendBucks() {
-        Transfer send = new Transfer(2, 2, 0, 0);
+        Transfer send = new Transfer(APPROVED, SEND);
 
         send.setUserFromId(currentUser.getUser().getId());
 
@@ -128,7 +128,8 @@ public class App {
             if (userInput.equalsIgnoreCase("Y")) {
                 Transfer updatedTransfer = new Transfer();
                 updatedTransfer = accountService.makeTransaction(send);
-                consoleService.printTransfers(updatedTransfer);
+                consoleService.printTransferInfo(updatedTransfer, selectedUser, currentUser);
+                break;
                 // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
                 break;
@@ -140,7 +141,7 @@ public class App {
     }
 
     private void requestBucks() {
-        Transfer request = new Transfer(1, 1, 0, 0);
+        Transfer request = new Transfer(PENDING,REQUEST);
 
         request.setUserToId(currentUser.getUser().getId());
 

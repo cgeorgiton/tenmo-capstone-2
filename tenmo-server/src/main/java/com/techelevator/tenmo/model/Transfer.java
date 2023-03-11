@@ -8,8 +8,6 @@ public class Transfer {
     private BigDecimal amount;
     private int userToId;
     private int userFromId;
-    private int accountFromId;
-    private int accountToId;
     private String description;
     private int transferStatusId;
     private int transferTypeId;
@@ -17,13 +15,11 @@ public class Transfer {
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, int accountFromId, int accountToId, String description, int transferStatusId, int transferTypeId) {
+    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, String description, int transferStatusId, int transferTypeId) {
         this.transferId = transferId;
         this.amount = amount;
         this.userToId = userToId;
         this.userFromId = userFromId;
-        this.accountFromId = accountFromId;
-        this.accountToId = accountToId;
         this.description = description;
         this.transferStatusId = transferStatusId;
         this.transferTypeId = transferTypeId;
@@ -85,21 +81,6 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    public int getAccountFromId() {
-        return accountFromId;
-    }
-
-    public void setAccountFromId(int accountFromId) {
-        this.accountFromId = accountFromId;
-    }
-
-    public int getAccountToId() {
-        return accountToId;
-    }
-
-    public void setAccountToId(int accountToId) {
-        this.accountToId = accountToId;
-    }
 
     @Override
     public String toString() {
@@ -108,8 +89,6 @@ public class Transfer {
                 ", amount=" + amount +
                 ", userToId=" + userToId +
                 ", userFromId=" + userFromId +
-                ", accountFromId=" + accountFromId +
-                ", accountToId=" + accountToId +
                 ", description='" + description + '\'' +
                 ", transferStatusId=" + transferStatusId +
                 ", transferTypeId=" + transferTypeId +

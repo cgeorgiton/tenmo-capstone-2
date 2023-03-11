@@ -60,18 +60,9 @@ public class JdbcAccountDao implements AccountDao {
     public void withdrawAndDeposit(int userFromId, int userToId, BigDecimal amount) {
         String sql = "SELECT account.balance FROM account WHERE user_id = ? ";
         BigDecimal userFromOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userFromId);
-
+    //TODO use original balance variables or delete them
         sql = "SELECT account.balance FROM account WHERE user_id = ? ";
         BigDecimal userToOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userToId);
-
-        /*BEGIN TRY
-        DECLARE @x int
-        SELECT @x = 1/0
-        PRINT 'Not reached'
-        END TRY
-        BEGIN CATCH
-        PRINT 'This is the error: ' + error_message()
-        END CATCH*/
 
         sql = "UPDATE account " +
                 "SET balance = balance - ? " +
@@ -117,8 +108,6 @@ public class JdbcAccountDao implements AccountDao {
         transfer.setAmount(sqlRowSet.getBigDecimal("amount"));
         transfer.setUserFromId(sqlRowSet.getInt("user_from_id"));
         transfer.setUserToId(sqlRowSet.getInt("user_to_id"));
-        transfer.setAccountFromId(sqlRowSet.getInt("account_from"));
-        transfer.setAccountToId(sqlRowSet.getInt("account_to"));
         transfer.setDescription(sqlRowSet.getString("description"));
         transfer.setTransferStatusId(sqlRowSet.getInt("transfer_status_id"));
         transfer.setTransferTypeId(sqlRowSet.getInt("transfer_type_id"));

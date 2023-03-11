@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -117,10 +118,13 @@ public class ConsoleService {
     }
 
 
-    public void printTransfers(Transfer transfer) {
-        System.out.println(transfer.toString());
-        // TODO print transfer make it pretty
+    public void printTransferInfo(Transfer transfer, User selectedUser, AuthenticatedUser currentUser) {
+        System.out.println(String.format("\nTransfer Summary: \n" +
+                                         "\tTransfer ID: %d \n" +
+                                         "\tSent To: %s \n" +
+                                         "\tSent From: %s \n", transfer.getTransferId(), selectedUser.getUsername(), currentUser.getUser().getUsername()));
         }
+
 
 
     public void printErrorMessage() {
