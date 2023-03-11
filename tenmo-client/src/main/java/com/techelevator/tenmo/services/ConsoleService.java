@@ -1,10 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -12,7 +9,9 @@ import java.util.Scanner;
 
 public class ConsoleService {
 
+    private static final String API_BASE_URL = "http://localhost:8080/";
     private final Scanner scanner = new Scanner(System.in);
+    private final AccountService accountService = new AccountService(API_BASE_URL);
 
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
@@ -118,16 +117,31 @@ public class ConsoleService {
     }
 
 
-    public void printTransferInfo(Transfer transfer, User selectedUser, AuthenticatedUser currentUser) {
-        System.out.println(String.format("\nTransfer Summary: \n" +
-                                         "\tTransfer ID: %d \n" +
-                                         "\tSent To: %s \n" +
-                                         "\tSent From: %s \n", transfer.getTransferId(), selectedUser.getUsername(), currentUser.getUser().getUsername()));
+    public void printTransferInfo(Transfer[] transfers) {
+
+        for (Transfer transfer : transfers) {
+            String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
+            String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
+
+            System.out.println(String.format("\nTransfer Details: \n" +
+                            "================\n" +
+                            "\tID: %d \n" +
+                            "\tSent From: %s \n" +
+                            "\tSent To: %s" +
+                            "\tType: %s \n" +
+                            "\tStatus: %s \n" +
+                            "\tAmount: $%.2f \n", transfer.getTransferId(),
+                            accountService.getUserById(transfer.getUserFromId()).getUsername(),
+                            accountService.getUserById(transfer.getUserToId()).getUsername(), transferType, transferStatus,
+                            transfer.getAmount()));
         }
 
+    }
 
 
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");
     }
 }
+
+

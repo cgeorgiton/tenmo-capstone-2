@@ -37,6 +37,21 @@ public class AccountService {
         return users;
     }
 
+    public User getUserById(int id) {
+        User user = new User();
+
+        user.setId(id);
+        user.setUsername("name");
+        try {
+            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "users/user-id", HttpMethod.GET, makeUserEntity(user), User.class);
+            user = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return user;
+    }
+
+
     public Account getCurrentUserAccount() {
         Account currentAccount = null;
         try {
@@ -50,10 +65,10 @@ public class AccountService {
         return currentAccount;
     }
 
-    public Transfer makeTransaction(Transfer transfer){
+    public Transfer makeTransfer(Transfer transfer){
         Transfer returnedTransfer = null;
         try {
-            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "accounts/transaction", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "accounts/transfer", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
             returnedTransfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
@@ -61,12 +76,12 @@ public class AccountService {
         return returnedTransfer;
     }
 
-    public Transfer[] viewAllTransfers() {
+    public Transfer[] getAllTransfers() {
         Transfer[] transfers = null;
 
         try {
             ResponseEntity<Transfer[]> response =
-                    restTemplate.exchange(baseUrl + "transfers",
+                    restTemplate.exchange(baseUrl + "accounts/transfer-list",
                             HttpMethod.GET, makeAuthEntity(), Transfer[].class);
             transfers = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
@@ -85,9 +100,18 @@ public class AccountService {
         return new HttpEntity<>(transfer, headers);
     }
 
+    private HttpEntity<User> makeUserEntity(User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(currentUser.getToken());
+        return new HttpEntity<>(user, headers);
+    }
+
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
     }
+
+
 }

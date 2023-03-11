@@ -13,7 +13,7 @@ public interface AccountDao {
 
     public void withdrawAndDeposit(int userFromId, int userToId, BigDecimal amount);
 
-    public List<Transfer> listAll(int userId);
+    public List<Transfer> listAllTransfers(int userId);
 
     public List<Transfer> listFiltered(String status);
 

@@ -76,15 +76,14 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public List<Transfer> listAll(int userId) {
-        String sql = "SELECT transfer.transfer_id, transfer_type.transfer_type_desc, transfer_status.transfer_status_desc, transfer.account_from, transfer.account_to, transfer.amount, transfer.description, transfer.deleted " +
+    public List<Transfer> listAllTransfers(int userId) {
+        String sql = "SELECT transfer.transfer_id, transfer.transfer_type_id, " +
+                "transfer.transfer_status_id, transfer.user_from_id, transfer.user_to_id, " +
+                "transfer.amount, transfer.description " +
                 "FROM transfer " +
-                "JOIN account ON account.account_id = transfer.account_from " +
-                "OR account.account_id = transfer.account_to " +
-                "JOIN transfer_status ON transfer_status.transfer_status_id = transfer.transfer_status_id " +
-                "JOIN transfer_type ON transfer_type.transfer_type_id = transfer.transfer_type_id " +
-                "WHERE account.user_id = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+                "WHERE transfer.user_from_id = ? " +
+                "OR transfer.user_to_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,userId, userId);
 
         List<Transfer> transfers = new ArrayList<>();
 

@@ -31,6 +31,11 @@ public class UserController {
     public List<User> findAllUsers() {
         return userDao.findAll();
     }
+
+    @RequestMapping(path = "/user-id", method = RequestMethod.GET)
+    public User getUsernameById(@RequestBody User user){
+        return userDao.getUserById(user.getId());
+    }
 }
 
 

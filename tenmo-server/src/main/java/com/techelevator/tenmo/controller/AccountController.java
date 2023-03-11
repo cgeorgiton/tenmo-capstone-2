@@ -4,13 +4,11 @@ import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,15 +32,15 @@ public class AccountController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "/transaction", method = RequestMethod.POST)
+    @RequestMapping(path = "/transfer", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
         accountDao.withdrawAndDeposit(transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount());
         return accountDao.addTransfer(transfer);
     }
 
-    @RequestMapping(path = "/transfers", method = RequestMethod.GET)
+    @RequestMapping(path = "/transfer-list", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(Principal principal) {
-        return accountDao.listAll(userDao.findIdByUsername(principal.getName()));
+        return accountDao.listAllTransfers(userDao.findIdByUsername(principal.getName()));
     // TODO make sure transfers work
     }
 

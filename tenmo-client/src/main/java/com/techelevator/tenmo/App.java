@@ -6,6 +6,7 @@ import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class App {
 
@@ -101,6 +102,7 @@ public class App {
 
     private void viewTransferHistory() {
 
+        consoleService.printTransferInfo(accountService.getAllTransfers());
         // TODO complete viewTransferHistory()
 
     }
@@ -126,9 +128,8 @@ public class App {
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
-                Transfer updatedTransfer = new Transfer();
-                updatedTransfer = accountService.makeTransaction(send);
-                consoleService.printTransferInfo(updatedTransfer, selectedUser, currentUser);
+                Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
+                consoleService.printTransferInfo(updatedTransfer);
                 break;
                 // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
