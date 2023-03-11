@@ -101,8 +101,8 @@ public class App {
     }
 
     private void viewTransferHistory() {
-
-        consoleService.printTransferInfo(accountService.getAllTransfers());
+        Transfer[] transfers = accountService.getAllTransfers();
+        consoleService.printTransferInfo(transfers);
         // TODO complete viewTransferHistory()
 
     }

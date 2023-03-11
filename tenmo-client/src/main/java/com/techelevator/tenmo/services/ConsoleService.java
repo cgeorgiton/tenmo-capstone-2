@@ -122,6 +122,8 @@ public class ConsoleService {
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
             String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
+            String fromUsername = accountService.getUserById(transfer.getUserFromId()).getUsername();
+            String toUsername = accountService.getUserById(transfer.getUserToId()).getUsername();
 
             System.out.println(String.format("\nTransfer Details: \n" +
                             "================\n" +
@@ -131,8 +133,8 @@ public class ConsoleService {
                             "\tType: %s \n" +
                             "\tStatus: %s \n" +
                             "\tAmount: $%.2f \n", transfer.getTransferId(),
-                            accountService.getUserById(transfer.getUserFromId()).getUsername(),
-                            accountService.getUserById(transfer.getUserToId()).getUsername(), transferType, transferStatus,
+                            fromUsername, toUsername,
+                            transferType, transferStatus,
                             transfer.getAmount()));
         }
 
