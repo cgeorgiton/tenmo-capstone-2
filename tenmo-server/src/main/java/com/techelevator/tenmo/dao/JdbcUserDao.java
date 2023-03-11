@@ -62,22 +62,6 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public List<User> findAllUsersAndAccountId() {
-        List<User> users = new ArrayList<>();
-
-        String sql = "SELECT tenmo_user.username, tenmo_user.user_id, tenmo_user.password_hash, account.account_id " +
-                "FROM account " +
-                "JOIN tenmo_user ON tenmo_user.user_id = account.user_id";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-
-        while (results.next()) {
-            User user = mapRowToUser(results);
-            users.add(user);
-        }
-        return users;
-    }
-
-    @Override
     public User findByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
 
