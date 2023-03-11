@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Transfer completeTransaction(Transfer transfer) {
+    public Transfer addTransfer(Transfer transfer) {
 
         //create new transfer in database
         String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description) " +
@@ -53,6 +54,34 @@ public class JdbcAccountDao implements AccountDao {
         // TODO pull new transfer
 
         return transfer;
+    }
+
+    @Override
+    public void withdrawAndDeposit(int userFromId, int userToId, BigDecimal amount) {
+        String sql = "SELECT account.balance FROM account WHERE user_id = ? ";
+        BigDecimal userFromOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userFromId);
+
+        sql = "SELECT account.balance FROM account WHERE user_id = ? ";
+        BigDecimal userToOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userToId);
+
+        /*BEGIN TRY
+        DECLARE @x int
+        SELECT @x = 1/0
+        PRINT 'Not reached'
+        END TRY
+        BEGIN CATCH
+        PRINT 'This is the error: ' + error_message()
+        END CATCH*/
+
+        sql = "UPDATE account " +
+                "SET balance = balance - ? " +
+                "WHERE user_id = ?; " +
+                "UPDATE account " +
+                "SET balance = balance + ? " +
+                "WHERE user_id = ?;";
+
+
+        jdbcTemplate.update(sql, amount, userFromId, amount, userToId);
     }
 
     @Override

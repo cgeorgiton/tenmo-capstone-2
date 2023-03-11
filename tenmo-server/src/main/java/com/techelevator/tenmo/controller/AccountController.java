@@ -36,7 +36,8 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
-        return accountDao.completeTransaction(transfer);
+        accountDao.withdrawAndDeposit(transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount());
+        return accountDao.addTransfer(transfer);
     }
 
     @RequestMapping(path = "/transfers", method = RequestMethod.GET)
