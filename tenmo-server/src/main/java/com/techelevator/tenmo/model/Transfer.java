@@ -8,21 +8,25 @@ public class Transfer {
     private BigDecimal amount;
     private int userToId;
     private int userFromId;
+    private int accountFromId;
+    private int accountToId;
     private String description;
-    private String status;
-    private String transferType;
+    private int transferStatusId;
+    private int transferTypeId;
 
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, String description, String status, String transferType) {
+    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, int accountFromId, int accountToId, String description, int transferStatusId, int transferTypeId) {
         this.transferId = transferId;
         this.amount = amount;
         this.userToId = userToId;
         this.userFromId = userFromId;
+        this.accountFromId = accountFromId;
+        this.accountToId = accountToId;
         this.description = description;
-        this.status = status;
-        this.transferType = transferType;
+        this.transferStatusId = transferStatusId;
+        this.transferTypeId = transferTypeId;
     }
 
     public int getTransferId() {
@@ -65,20 +69,36 @@ public class Transfer {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
+    public int getTransferStatusId() {
+        return transferStatusId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTransferStatusId(int transferStatusId) {
+        this.transferStatusId = transferStatusId;
     }
 
-    public String getTransferType() {
-        return transferType;
+    public int getTransferTypeId() {
+        return transferTypeId;
     }
 
-    public void setTransferType(String transferType) {
-        this.transferType = transferType;
+    public void setTransferTypeId(int transferTypeId) {
+        this.transferTypeId = transferTypeId;
+    }
+
+    public int getAccountFromId() {
+        return accountFromId;
+    }
+
+    public void setAccountFromId(int accountFromId) {
+        this.accountFromId = accountFromId;
+    }
+
+    public int getAccountToId() {
+        return accountToId;
+    }
+
+    public void setAccountToId(int accountToId) {
+        this.accountToId = accountToId;
     }
 
     @Override
@@ -88,9 +108,11 @@ public class Transfer {
                 ", amount=" + amount +
                 ", userToId=" + userToId +
                 ", userFromId=" + userFromId +
+                ", accountFromId=" + accountFromId +
+                ", accountToId=" + accountToId +
                 ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", transferType='" + transferType + '\'' +
+                ", transferStatusId=" + transferStatusId +
+                ", transferTypeId=" + transferTypeId +
                 '}';
     }
 }

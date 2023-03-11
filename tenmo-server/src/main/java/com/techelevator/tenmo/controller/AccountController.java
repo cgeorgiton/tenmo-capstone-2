@@ -33,12 +33,6 @@ public class AccountController {
         return accountDao.getCurrentUserAccount(userId);
     }
 
-    /*
-    @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public Account getAccountByUserId(@PathVariable String username) {
-        return accountDao.getAccountByUsername(username);
-    }*/
-
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/transaction", method = RequestMethod.POST)
     public Transfer completeTransaction(@RequestBody Transfer transfer) {
@@ -53,11 +47,9 @@ public class AccountController {
 
 
 
-    // TODO transfers by user_id
+    // TODO transfers by current user
+    // TODO filtered transfer
     // TODO create request
-    // TODO create transfer
-    // TODO get account info by ID
-    // TODO get balance by ID
 
 
 }

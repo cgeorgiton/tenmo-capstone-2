@@ -3,7 +3,6 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountDao {
@@ -14,9 +13,6 @@ public interface AccountDao {
     public List<Transfer> listAll(int userId);
 
     public List<Transfer> listFiltered(String status);
-
-    public boolean delete(int transferId);
-
 
 
     // TODO add delete method

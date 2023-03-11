@@ -78,13 +78,6 @@ public class AccountService {
         // TODO check that transfers work
     }
 
-    private HttpEntity<Account> makeAccountEntity(Account account) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(currentUser.getToken());
-        return new HttpEntity<>(account, headers);
-    }
-
     private HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

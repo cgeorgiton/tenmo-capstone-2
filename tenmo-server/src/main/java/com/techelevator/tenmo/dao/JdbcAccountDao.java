@@ -3,16 +3,10 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,22 +37,22 @@ public class JdbcAccountDao implements AccountDao {
     public Transfer completeTransaction(Transfer transfer) {
 
         //create new transfer in database
-        String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount, description) " +
-                "VALUES ( " +
-                "(SELECT transfer_type.transfer_type_id FROM transfer_type WHERE transfer_type_desc = ?), " +
-                "(SELECT transfer_status.transfer_status_id FROM transfer_status WHERE transfer_status_desc = ?), " +
+        String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description) " +
+                     "VALUES (?, ?, " +
+                     "(SELECT account.account_id FROM account WHERE user_id = ?), " +
+                     "(SELECT account.account_id FROM account WHERE user_id = ?), ?, ?, ?, ?) RETURNING transfer_id;";
 
-                "(SELECT account.account_id FROM account WHERE user_id = ?), " +
-                "(SELECT account.account_id FROM account WHERE user_id = ?), ?, ?) RETURNING transfer_id;";
-
-        // TODO adjust SQL statement
         Integer newTransferId = jdbcTemplate.queryForObject(sql, Integer.class,
-                transfer.getTransferType(), transfer.getStatus(),
-                transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount().doubleValue(), transfer.getDescription());
+                transfer.getTransferTypeId(), transfer.getTransferStatusId(),
+                transfer.getUserFromId(), transfer.getUserToId(), transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount().doubleValue(), transfer.getDescription());
+
         transfer.setTransferId(newTransferId);
 
+        // TODO withdraw from account
+        // TODO deposit into account
+        // TODO pull new transfer
 
-        return transfer; // TODO complete transaction
+        return transfer;
     }
 
     @Override
@@ -86,20 +80,20 @@ public class JdbcAccountDao implements AccountDao {
         return null; // TODO do we need filtered list
     }
 
-    @Override
-    public boolean delete(int transferId) {
-        return false;
-    }
 
     private Transfer mapRowToTransfer(SqlRowSet sqlRowSet) {
         Transfer transfer = new Transfer();
 
         transfer.setTransferId(sqlRowSet.getInt("transfer_id"));
         transfer.setAmount(sqlRowSet.getBigDecimal("amount"));
+        transfer.setUserFromId(sqlRowSet.getInt("user_from_id"));
+        transfer.setUserToId(sqlRowSet.getInt("user_to_id"));
+        transfer.setAccountFromId(sqlRowSet.getInt("account_from"));
+        transfer.setAccountToId(sqlRowSet.getInt("account_to"));
         transfer.setDescription(sqlRowSet.getString("description"));
-        transfer.setStatus(sqlRowSet.getString("transfer_status_desc"));
-        transfer.setTransferType(sqlRowSet.getString("transfer_type_desc"));
-// TODO work on mapRowToTransfer
+        transfer.setTransferStatusId(sqlRowSet.getInt("transfer_status_id"));
+        transfer.setTransferTypeId(sqlRowSet.getInt("transfer_type_id"));
+
         return transfer;
     }
     private Account mapRowToAccount(SqlRowSet rowSet) {

@@ -111,9 +111,8 @@ public class App {
     }
 
     private void sendBucks() {
-        Transfer send = new Transfer();
-        send.setTransferTypeId(SEND);
-        send.setTransferStatusId(APPROVED);
+        Transfer send = new Transfer(2, 2, 0, 0);
+
         send.setUserFromId(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
@@ -130,21 +129,19 @@ public class App {
                 Transfer updatedTransfer = new Transfer();
                 updatedTransfer = accountService.makeTransaction(send);
                 consoleService.printTransfers(updatedTransfer);
-
+                // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
                 break;
             } else {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");
             }
         }
-        // TODO complete sendBucks()
         // TODO add exit to main menu
     }
 
     private void requestBucks() {
-        Transfer request = new Transfer();
-        request.setTransferTypeId(REQUEST);
-        request.setTransferStatusId(PENDING);
+        Transfer request = new Transfer(1, 1, 0, 0);
+
         request.setUserToId(currentUser.getUser().getId());
 
         User selectedUser = selectUser();
@@ -166,6 +163,7 @@ public class App {
             }
         }
 
+        // TODO adjust status and complete transaction
         // TODO complete requestBucks()
     }
 
@@ -188,7 +186,6 @@ public class App {
                 validInput = true;
             }
         }
-
         return users[userInput - 1];
     }
 

@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 public class Transfer {
     private int transferId;
     private BigDecimal amount;
-    private int userFromId;
     private int userToId;
+    private int userFromId;
+    private int accountFromId;
+    private int accountToId;
     private String description;
     private int transferStatusId;
     private int transferTypeId;
@@ -14,11 +16,20 @@ public class Transfer {
     public Transfer() {
     }
 
-    public Transfer(int transferId, BigDecimal amount, int userFromId, int userToId, String description, int transferStatusId, int transferTypeId) {
+    public Transfer (int transferStatusId, int transferTypeId, int accountFromId, int accountToId) {
+        this.transferStatusId = transferStatusId;
+        this.transferTypeId = transferTypeId;
+        this.accountFromId = accountFromId;
+        this.accountToId = accountToId;
+    }
+
+    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, int accountFromId, int accountToId, String description, int transferStatusId, int transferTypeId) {
         this.transferId = transferId;
         this.amount = amount;
-        this.userFromId = userFromId;
         this.userToId = userToId;
+        this.userFromId = userFromId;
+        this.accountFromId = accountFromId;
+        this.accountToId = accountToId;
         this.description = description;
         this.transferStatusId = transferStatusId;
         this.transferTypeId = transferTypeId;
@@ -80,13 +91,31 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
+    public int getAccountFromId() {
+        return accountFromId;
+    }
+
+    public void setAccountFromId(int accountFromId) {
+        this.accountFromId = accountFromId;
+    }
+
+    public int getAccountToId() {
+        return accountToId;
+    }
+
+    public void setAccountToId(int accountToId) {
+        this.accountToId = accountToId;
+    }
+
     @Override
     public String toString() {
         return "Transfer{" +
                 "transferId=" + transferId +
                 ", amount=" + amount +
-                ", userFromId=" + userFromId +
                 ", userToId=" + userToId +
+                ", userFromId=" + userFromId +
+                ", accountFromId=" + accountFromId +
+                ", accountToId=" + accountToId +
                 ", description='" + description + '\'' +
                 ", transferStatusId=" + transferStatusId +
                 ", transferTypeId=" + transferTypeId +
