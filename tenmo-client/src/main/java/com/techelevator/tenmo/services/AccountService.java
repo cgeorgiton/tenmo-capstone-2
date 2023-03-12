@@ -39,16 +39,18 @@ public class AccountService {
 
     public User getUserById(int id) {
         User user = new User();
+        User returnedUser = new User();
 
         user.setId(id);
         user.setUsername("name");
+
         try {
             ResponseEntity<User> response = restTemplate.exchange(baseUrl + "users/user-id", HttpMethod.GET, makeUserEntity(user), User.class);
-            user = response.getBody();
+            returnedUser = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }
-        return user;
+        return returnedUser;
     }
 
 
@@ -68,7 +70,8 @@ public class AccountService {
     public Transfer makeTransfer(Transfer transfer){
         Transfer returnedTransfer = null;
         try {
-            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "accounts/transfer", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
+            ResponseEntity<Transfer> response =
+                    restTemplate.exchange(baseUrl + "accounts/transfer", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
             returnedTransfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());

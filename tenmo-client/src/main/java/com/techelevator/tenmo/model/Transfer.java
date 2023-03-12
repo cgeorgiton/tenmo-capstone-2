@@ -86,7 +86,6 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-
     @Override
     public String toString() {
         return "Transfer{" +

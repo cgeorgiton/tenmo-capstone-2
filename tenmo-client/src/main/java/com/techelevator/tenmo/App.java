@@ -6,7 +6,6 @@ import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class App {
 
@@ -102,7 +101,8 @@ public class App {
 
     private void viewTransferHistory() {
         Transfer[] transfers = accountService.getAllTransfers();
-        consoleService.printTransferInfo(transfers);
+        System.out.println(accountService.getUserById(currentUser.getUser().getId()).getUsername());
+
         // TODO complete viewTransferHistory()
 
     }
@@ -120,16 +120,26 @@ public class App {
         User selectedUser = selectUser();
         send.setUserToId(selectedUser.getId());
 
-        send.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: "));
+        BigDecimal moneyInput = BigDecimal.ZERO;
+
+        while (true) {
+            moneyInput = consoleService.promptForBigDecimal("\nHow much money do you want to transfer?: ");
+            if (moneyInput.compareTo(accountService.getCurrentUserAccount().getBalance()) <= 0) {
+                break;
+            }
+            System.out.println("\nInvalid amount");
+        }
+
+        send.setAmount(moneyInput);
         send.setDescription(getDescription());
 
         consoleService.printTransactionSummary(send, selectedUser.getUsername());
 
         while (true) {
-            String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
+             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
-                Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
-                consoleService.printTransferInfo(updatedTransfer);
+                Transfer updatedTransfer = accountService.makeTransfer(send);
+                consoleService.printTransferInfo(updatedTransfer, selectedUser, currentUser);
                 break;
                 // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
@@ -169,12 +179,8 @@ public class App {
         // TODO complete requestBucks()
     }
 
-    private User[] getUsers() {
-        return accountService.getAllUsers();
-    }
-
     private User selectUser() {
-        User[] users = getUsers();
+        User[] users = accountService.getAllUsers();
         consoleService.printUsers(users, currentUser.getUser().getUsername());
 
         int userInput = -1;

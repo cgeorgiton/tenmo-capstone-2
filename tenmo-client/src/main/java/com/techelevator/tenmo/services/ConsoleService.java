@@ -4,7 +4,6 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.model.*;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -113,11 +112,11 @@ public class ConsoleService {
         String requestOrTransfer = transfer.getTransferTypeId() == 2 ? "sending" : "requesting";
         String toOrFrom = requestOrTransfer.equals("requesting") ? "from" : "to";
         System.out.println(String.format("\n<<< You are %s $%.2f %s %s >>>\n",
-                                        requestOrTransfer, transfer.getAmount(), toOrFrom, username));
+                requestOrTransfer, transfer.getAmount(), toOrFrom, username));
     }
 
 
-    public void printTransferInfo(Transfer[] transfers) {
+    public void printTransferList(Transfer[] transfers) {
 
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
@@ -129,21 +128,39 @@ public class ConsoleService {
                             "================\n" +
                             "\tID: %d \n" +
                             "\tSent From: %s \n" +
-                            "\tSent To: %s" +
+                            "\tSent To: %s\n" +
                             "\tType: %s \n" +
                             "\tStatus: %s \n" +
                             "\tAmount: $%.2f \n", transfer.getTransferId(),
-                            fromUsername, toUsername,
-                            transferType, transferStatus,
-                            transfer.getAmount()));
+                    fromUsername, toUsername,
+                    transferType, transferStatus,
+                    transfer.getAmount()));
         }
-
     }
 
+    public void printTransferInfo(Transfer transfer, User selectedUser, AuthenticatedUser currentUser) {
+        String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
+        String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
+        String fromUsername = currentUser.getUser().getUsername();
+        String toUsername = selectedUser.getUsername();
+
+        System.out.println(String.format("\nTransfer Details: \n" +
+                        "================\n" +
+                        "\tID: %d \n" +
+                        "\tSent From: %s \n" +
+                        "\tSent To: %s\n" +
+                        "\tType: %s \n" +
+                        "\tStatus: %s \n" +
+                        "\tAmount: $%.2f \n", transfer.getTransferId(),
+                fromUsername, toUsername,
+                transferType, transferStatus,
+                transfer.getAmount()));
+    }
 
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");
     }
 }
+
 
 
