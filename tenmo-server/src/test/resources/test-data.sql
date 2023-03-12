@@ -84,11 +84,11 @@ INSERT INTO account (account_id, user_id, balance) VALUES (2001, 1001, 5.00);
 INSERT INTO account (account_id, user_id, balance) VALUES (2002, 1002, 10.00);
 INSERT INTO account (account_id, user_id, balance) VALUES (2003, 1003, 15.00);
 INSERT INTO transfer (transfer_id, amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
-                      VALUES (3001, 10.00), 1001, 1002, "test", 1, 1, 2002, 2001);
+                      VALUES (3001, 10.00, 1001, 1002, "test", 1, 1, 2002, 2001);
 INSERT INTO transfer (transfer_id, amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
-                       VALUES (3002, 5.00), 1002, 1003, "test", 2, 2, 2003, 2002);
+                       VALUES (3002, 5.00, 1002, 1003, "test", 2, 2, 2003, 2002);
 INSERT INTO transfer (transfer_id, amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
-                      VALUES (3003, 15.00), 1003, 1002, "test", 3, 1, 2002, 2003);
+                      VALUES (3003, 15.00, 1003, 1002, "test", 3, 1, 2002, 2003);
 
 COMMIT TRANSACTION;
 
