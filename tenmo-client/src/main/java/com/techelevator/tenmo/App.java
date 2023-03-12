@@ -108,7 +108,9 @@ public class App {
                                                         "Enter your selection: ");
             if (userInput == 1) {
                 userInput = consoleService.promptForInt("\nPlease enter the transfer ID: ");
-                Transfer[] returnedTransfer = new Transfer[] {accountService.getTransferById(userInput)};
+                Transfer transfer = new Transfer(userInput, BigDecimal.ZERO, 0, 0, " ", 2, 2);
+
+                Transfer[] returnedTransfer = new Transfer[] {accountService.getTransferById(transfer)};
                 consoleService.printTransfers(returnedTransfer, users);
                 break;
             } else if (userInput == 2) {
@@ -125,6 +127,8 @@ public class App {
     }
 
     private void viewPendingRequests() {
+        User user = accountService.getUserById(1001);
+        System.out.println(user.toString());
         // TODO complete viewPendingRequests()
 
     }

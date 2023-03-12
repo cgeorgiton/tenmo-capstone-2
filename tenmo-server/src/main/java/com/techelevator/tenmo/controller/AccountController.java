@@ -43,7 +43,7 @@ public class AccountController {
         return accountDao.listAllTransfers(userDao.findIdByUsername(principal.getName()));
     }
 
-    @RequestMapping(path = "/transfer/id", method = RequestMethod.GET)
+    @RequestMapping(path = "/transfer/id", method = RequestMethod.POST)
     public Transfer getTransferById(@RequestBody Transfer transfer) {
         return accountDao.getTransferById(transfer.getTransferId());
     }

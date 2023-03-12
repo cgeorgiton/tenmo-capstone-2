@@ -96,19 +96,12 @@ public class AccountService {
         return transfers;
     }
 
-    public Transfer getTransferById(int id) {
-        Transfer transfer = new Transfer(1,1);
+    public Transfer getTransferById(Transfer transfer) {
         Transfer returnedTransfer = new Transfer();
-        transfer.setTransferId(id);
-        transfer.setUserToId(0);
-        transfer.setUserFromId(0);
-        transfer.setAmount(BigDecimal.ZERO);
-        transfer.setDescription("");
-
         try {
             ResponseEntity<Transfer> response =
                     restTemplate.exchange(baseUrl + "accounts/transfer/id",
-                            HttpMethod.GET, makeTransferEntity(transfer), Transfer.class);
+                            HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
             returnedTransfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
