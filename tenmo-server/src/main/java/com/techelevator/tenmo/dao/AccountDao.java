@@ -17,6 +17,4 @@ public interface AccountDao {
 
     public List<Transfer> listFiltered(String status);
 
-
-    // TODO add delete method
 }

@@ -16,5 +16,4 @@ public interface UserDao {
 
     boolean create(String username, String password);
 
-    // TODO add delete method
 }

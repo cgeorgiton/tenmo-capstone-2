@@ -41,12 +41,10 @@ public class AccountController {
     @RequestMapping(path = "/transfer-list", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(Principal principal) {
         return accountDao.listAllTransfers(userDao.findIdByUsername(principal.getName()));
-    // TODO make sure transfers work
     }
 
 
 
-    // TODO transfers by current user
     // TODO filtered transfer
     // TODO create request
 

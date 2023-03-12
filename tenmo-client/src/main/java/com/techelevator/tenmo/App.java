@@ -101,8 +101,12 @@ public class App {
 
     private void viewTransferHistory() {
         Transfer[] transfers = accountService.getAllTransfers();
-        System.out.println(accountService.getUserById(currentUser.getUser().getId()).getUsername());
-
+        /*for (Transfer transfer : transfers) {
+            System.out.println(transfer.toString());
+            System.out.println();
+        }*/
+        User[] users = accountService.getAllUsers();
+        consoleService.printTransferList(transfers, users);
         // TODO complete viewTransferHistory()
 
     }
@@ -148,7 +152,6 @@ public class App {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");
             }
         }
-        // TODO add exit to main menu
     }
 
     private void requestBucks() {

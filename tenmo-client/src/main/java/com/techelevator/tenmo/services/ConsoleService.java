@@ -8,9 +8,7 @@ import java.util.Scanner;
 
 public class ConsoleService {
 
-    private static final String API_BASE_URL = "http://localhost:8080/";
     private final Scanner scanner = new Scanner(System.in);
-    private final AccountService accountService = new AccountService(API_BASE_URL);
 
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
@@ -117,13 +115,21 @@ public class ConsoleService {
     }
 
 
-    public void printTransferList(Transfer[] transfers) {
+    public void printTransferList(Transfer[] transfers, User[] users) {
 
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
             String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
-            String fromUsername = accountService.getUserById(transfer.getUserFromId()).getUsername();
-            String toUsername = accountService.getUserById(transfer.getUserToId()).getUsername();
+            String fromUsername = "";
+            String toUsername = "";
+            for (User user : users) {
+                if (user.getId() == transfer.getUserToId()) {
+                    toUsername = user.getUsername();
+                }
+                if (user.getId() == transfer.getUserFromId()) {
+                    fromUsername = user.getUsername();
+                }
+            }
 
             System.out.println(String.format("\nTransfer Details: \n" +
                             "=================\n" +
@@ -132,10 +138,11 @@ public class ConsoleService {
                             "\tSent To: %s\n" +
                             "\tType: %s \n" +
                             "\tStatus: %s \n" +
-                            "\tAmount: $%.2f \n", transfer.getTransferId(),
-                    fromUsername, toUsername,
-                    transferType, transferStatus,
-                    transfer.getAmount()));
+                            "\tAmount: $%.2f \n" +
+                            "\tDescription: %s\n", transfer.getTransferId(),
+                                                  fromUsername, toUsername,
+                                                  transferType, transferStatus,
+                                                  transfer.getAmount(), transfer.getDescription()));
         }
     }
 
@@ -152,10 +159,11 @@ public class ConsoleService {
                         "\tSent To: %s\n" +
                         "\tType: %s \n" +
                         "\tStatus: %s \n" +
-                        "\tAmount: $%.2f \n", transfer.getTransferId(),
-                fromUsername, toUsername,
-                transferType, transferStatus,
-                transfer.getAmount()));
+                        "\tAmount: $%.2f \n" +
+                        "\tDescription: %s\n", transfer.getTransferId(),
+                                              fromUsername, toUsername,
+                                              transferType, transferStatus,
+                                              transfer.getAmount(), transfer.getDescription()));
     }
 
     public void printErrorMessage() {

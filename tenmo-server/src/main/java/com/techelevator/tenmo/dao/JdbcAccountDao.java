@@ -49,10 +49,6 @@ public class JdbcAccountDao implements AccountDao {
 
         transfer.setTransferId(newTransferId);
 
-        // TODO withdraw from account
-        // TODO deposit into account
-        // TODO pull new transfer
-
         return transfer;
     }
 
