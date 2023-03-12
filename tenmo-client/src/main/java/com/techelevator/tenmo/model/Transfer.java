@@ -106,4 +106,18 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "transferId=" + transferId +
+                ", amount=" + amount +
+                ", userToId=" + userToId +
+                ", userFromId=" + userFromId +
+                ", description='" + description + '\'' +
+                ", transferStatusId=" + transferStatusId +
+                ", transferTypeId=" + transferTypeId +
+                ", toUsername='" + toUsername + '\'' +
+                ", fromUsername='" + fromUsername + '\'' +
+                '}';
+    }
 }

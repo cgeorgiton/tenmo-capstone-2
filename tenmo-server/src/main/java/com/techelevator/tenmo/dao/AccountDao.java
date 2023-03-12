@@ -15,7 +15,7 @@ public interface AccountDao {
 
     public List<Transfer> listAllTransfers(int userId);
 
-    public List<Transfer> listFiltered(String status);
+    public List<Transfer> listFiltered(String status); //TODO create filtered list
 
     public Transfer getTransferById(int transferId, int userId);
 

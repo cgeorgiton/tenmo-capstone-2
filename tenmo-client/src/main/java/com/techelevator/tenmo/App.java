@@ -100,20 +100,21 @@ public class App {
     }
 
     private void viewTransferHistory() {
-        User[] users = accountService.getAllUsers();
-
         while (true) {
             int userInput = consoleService.promptForInt("\n1. Search by transfer ID\n" +
                                                         "2. View all transfers\n\n" +
                                                         "Enter your selection: ");
             if (userInput == 1) {
                 userInput = consoleService.promptForInt("\nPlease enter the transfer ID: ");
+
                 Transfer transfer = new Transfer(userInput, BigDecimal.ZERO, 0, 0, "", 2, 2, "", "");
                 Transfer returnedTransfer = accountService.getTransferById(transfer);
+
                 if (returnedTransfer.getUserToId() == 0) {
                     System.out.println("\nThat transfer ID was invalid or you don't have access to this transfer history");
                     break;
                 }
+
                 Transfer[] transferArray = new Transfer[]{returnedTransfer};
                 consoleService.printTransfers(transferArray);
                 break;
@@ -125,16 +126,10 @@ public class App {
                 System.out.println("\nInvalid Selection");
             }
         }
-
-        // TODO make sure you can only view Principal transfers
-
     }
 
     private void viewPendingRequests() {
-        User user = accountService.getUserById(1001);
-        System.out.println(user.toString());
         // TODO complete viewPendingRequests()
-
     }
 
     private void sendBucks() {
@@ -166,7 +161,6 @@ public class App {
                 Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
                 consoleService.printTransfers(updatedTransfer);
                 break;
-                // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
                 break;
             } else {
@@ -199,7 +193,6 @@ public class App {
             }
         }
 
-        // TODO adjust status and complete transaction
         // TODO complete requestBucks()
     }
 
@@ -208,7 +201,7 @@ public class App {
 
         consoleService.printUsers(users, currentUser);
 
-        int userInput = -1;
+        int userInput;
         User selectedUser = new User();
 
         while (true) {
@@ -226,7 +219,6 @@ public class App {
                 }
             }
         }
-
         return selectedUser;
     }
 

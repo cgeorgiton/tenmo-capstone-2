@@ -91,13 +91,12 @@ public class JdbcAccountDao implements AccountDao {
         while (results.next()) {
             transfers.add(mapRowToTransfer(results));
         }
-        // TODO test listAll
         return transfers;
     }
 
     @Override
     public List<Transfer> listFiltered(String status) {
-        return null; // TODO do we need filtered list
+        return null;
     }
 
     @Override
