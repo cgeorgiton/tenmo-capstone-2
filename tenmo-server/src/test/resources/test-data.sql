@@ -95,11 +95,11 @@ INSERT INTO transfer_type (transfer_type_desc) VALUES ('Send');
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user1','user1','ROLE_USER'); -- 1001
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user2','user2','ROLE_USER'); -- 1002
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user3','user3','ROLE_USER'); --1003
-INSERT INTO account (user_id, balance) VALUES (1001, 5.00); --2001
-INSERT INTO account (user_id, balance) VALUES (1002, 10.00); --2002
-INSERT INTO account (user_id, balance) VALUES (1003, 15.00); --2003
+INSERT INTO account (user_id, balance) VALUES (1001, 1000.00); --2001
+INSERT INTO account (user_id, balance) VALUES (1002, 1000.00); --2002
+INSERT INTO account (user_id, balance) VALUES (1003, 1000.00); --2003
 INSERT INTO transfer (amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
-                      VALUES (10.00, 1001, 1002, 'test', 1, 1, 2002, 2001); --2001
+                     VALUES (10.00, 1001, 1002, 'test', 1, 1, 2002, 2001); --2001
 INSERT INTO transfer (amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
                        VALUES (5.00, 1002, 1003, 'test', 2, 2, 2003, 2002); --2002
 INSERT INTO transfer (amount, user_to_id, user_from_id, description, transfer_status_id, transfer_type_id, account_from, account_to)
