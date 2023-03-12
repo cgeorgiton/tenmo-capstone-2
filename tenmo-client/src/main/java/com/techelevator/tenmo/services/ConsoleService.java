@@ -114,7 +114,6 @@ public class ConsoleService {
                 requestOrTransfer, transfer.getAmount(), toOrFrom, username));
     }
 
-
     public void printTransfers(Transfer[] transfers) {
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";

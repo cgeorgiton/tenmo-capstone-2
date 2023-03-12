@@ -37,25 +37,9 @@ public class AccountService {
         return users;
     }
 
-    public User getUserById(int id) {
-        User user = new User();
-        User returnedUser = new User();
-        // TODO delete if we don't use this
-        user.setId(id);
-        user.setUsername("name");
-
-        try {
-            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "users/user-id", HttpMethod.POST, makeUserEntity(user), User.class);
-            returnedUser = response.getBody();
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
-        }
-        return returnedUser;
-    }
-
-
     public Account getCurrentUserAccount() {
         Account currentAccount = null;
+
         try {
             ResponseEntity<Account> response =
                     restTemplate.exchange(baseUrl + "accounts/current",
@@ -69,9 +53,22 @@ public class AccountService {
 
     public Transfer makeTransfer(Transfer transfer){
         Transfer returnedTransfer = null;
+
         try {
             ResponseEntity<Transfer> response =
                     restTemplate.exchange(baseUrl + "accounts/transfer", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
+            returnedTransfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return returnedTransfer;
+    }
+
+    public Transfer makeRequest(Transfer transfer){
+        Transfer returnedTransfer = null;
+        try {
+            ResponseEntity<Transfer> response =
+                    restTemplate.exchange(baseUrl + "accounts/request", HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
             returnedTransfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
@@ -95,7 +92,8 @@ public class AccountService {
     }
 
     public Transfer getTransferById(Transfer transfer) {
-        Transfer returnedTransfer = new Transfer();
+        Transfer returnedTransfer = null;
+
         try {
             ResponseEntity<Transfer> response =
                     restTemplate.exchange(baseUrl + "accounts/transfer/id",
@@ -107,18 +105,39 @@ public class AccountService {
         return returnedTransfer;
     }
 
+    public Transfer[] getAllPendingRequests() {
+        Transfer[] transfers = null;
+
+        try {
+            ResponseEntity<Transfer[]> response =
+                    restTemplate.exchange(baseUrl + "accounts/request/pending",
+                            HttpMethod.GET, makeAuthEntity(), Transfer[].class);
+            transfers = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+
+        return transfers;
+    }
+
+    public Transfer updateRequest(Transfer transfer){
+        Transfer returnedRequest = null;
+
+        try {
+            ResponseEntity<Transfer> response =
+                    restTemplate.exchange(baseUrl + "accounts/request/update", HttpMethod.PUT, makeTransferEntity(transfer), Transfer.class);
+            returnedRequest = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return returnedRequest;
+    }
+
     private HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(transfer, headers);
-    }
-
-    private HttpEntity<User> makeUserEntity(User user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(currentUser.getToken());
-        return new HttpEntity<>(user, headers);
     }
 
     private HttpEntity<Void> makeAuthEntity() {

@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 
 import java.math.BigDecimal;
 
@@ -100,6 +101,7 @@ public class App {
     }
 
     private void viewTransferHistory() {
+
         while (true) {
             int userInput = consoleService.promptForInt("\n1. Search by transfer ID\n" +
                                                         "2. View all transfers\n\n" +
@@ -129,7 +131,49 @@ public class App {
     }
 
     private void viewPendingRequests() {
-        // TODO complete viewPendingRequests()
+        Transfer[] pendingRequests = accountService.getAllPendingRequests();
+
+        while (true) {
+            consoleService.printTransfers(pendingRequests);
+
+            int userInput = consoleService.promptForInt("\n1: Approve\n" +
+                                                    "2: Reject\n" +
+                                                    "0: Don't approve or reject\n" +
+                                                    "Please choose an option: ");
+            if (userInput == 1 || userInput == 2) {
+                int transferIdInput = consoleService.promptForInt("\nPlease enter the request ID: ");
+                int transferStatus = userInput == 1 ? APPROVED : REJECTED;
+
+                Transfer selectedTransfer = new Transfer();
+
+                for (Transfer transfer : pendingRequests) {
+                    if (transfer.getTransferId() == transferIdInput) {
+                        selectedTransfer = transfer;
+                    }
+                }
+                if (selectedTransfer.getTransferId() == 0) {
+                    System.out.println("\nThat transfer ID was invalid or you don't have access to this transfer history");
+                } else {
+
+                    selectedTransfer.setTransferStatusId(transferStatus);
+
+                    Transfer updatedRequest = accountService.updateRequest(selectedTransfer);
+
+                    System.out.println(updatedRequest.toString());
+
+                    Transfer[] requestArray = new Transfer[]{updatedRequest};
+
+                    consoleService.printTransfers(requestArray);
+
+                    break;
+                }
+            } else if (userInput == 0) {
+                break;
+            } else if (userInput != 1 || userInput != 2 || userInput != 0) {
+                System.out.println("\nInvalid Selection");
+            }
+        }
+
     }
 
     private void sendBucks() {
@@ -185,15 +229,15 @@ public class App {
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
-
+                Transfer[] updatedRequest = new Transfer[]{accountService.makeRequest(request)};
+                consoleService.printTransfers(updatedRequest);
+                break;
             } else if (userInput.equals("N")) {
                 break;
             } else {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");
             }
         }
-
-        // TODO complete requestBucks()
     }
 
     private User selectUser() {

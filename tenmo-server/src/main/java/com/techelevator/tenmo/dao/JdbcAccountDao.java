@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.dao;
 
-
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Component
 public class JdbcAccountDao implements AccountDao {
@@ -36,8 +34,6 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public int addTransfer(Transfer transfer) {
-
-        //create new transfer in database
         String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description) " +
                      "VALUES (?, ?, " +
                      "(SELECT account.account_id FROM account WHERE user_id = ?), " +
@@ -52,13 +48,7 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public void withdrawAndDeposit(int userFromId, int userToId, BigDecimal amount) {
-        String sql = "SELECT account.balance FROM account WHERE user_id = ? ";
-        BigDecimal userFromOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userFromId);
-    //TODO use original balance variables or delete them
-        sql = "SELECT account.balance FROM account WHERE user_id = ? ";
-        BigDecimal userToOriginalBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userToId);
-
-        sql = "UPDATE account " +
+        String sql = "UPDATE account " +
                 "SET balance = balance - ? " +
                 "WHERE user_id = ?; " +
                 "UPDATE account " +
@@ -93,8 +83,26 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public List<Transfer> listFiltered(String status) {
-        return null;
+    public List<Transfer> listFiltered(int userId) {
+        String sql = "SELECT transfer.transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, " +
+                "                transfer.account_from, transfer.account_to, transfer.user_from_id, transfer.user_to_id, " +
+                "                transfer.amount, transfer.description, to_tenmo_user.username AS to_username, " +
+                "                from_tenmo_user.username AS from_username " +
+                "                FROM public.transfer " +
+                "                INNER JOIN account AS from_account ON transfer.user_from_id = from_account.user_id " +
+                "                INNER JOIN account AS to_account ON transfer.user_to_id = to_account.user_id " +
+                "                INNER JOIN tenmo_user AS from_tenmo_user ON from_account.user_id = from_tenmo_user.user_id " +
+                "                INNER JOIN tenmo_user AS to_tenmo_user ON to_account.user_id = to_tenmo_user.user_id " +
+                "                WHERE (transfer.user_from_id = ?) " +
+                "                AND transfer.transfer_status_id = 1;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+
+        List<Transfer> pendingRequests = new ArrayList<>();
+
+        while (results.next()) {
+            pendingRequests.add(mapRowToTransfer(results));
+        }
+        return pendingRequests;
     }
 
     @Override
@@ -111,13 +119,32 @@ public class JdbcAccountDao implements AccountDao {
                 "WHERE transfer.transfer_id = ?" +
                 "AND (transfer.user_from_id = ? OR transfer.user_to_id = ?);";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId, userId, userId);
+
         Transfer transfer = new Transfer();
+
         if (results.next()) {
             transfer = mapRowToTransfer(results);
         }
         return transfer;
     }
 
+    @Override
+    public Transfer updateRequest(Transfer transfer, int userId) {
+        String sql = "UPDATE transfer " +
+                "SET transfer_status_id = ? " +
+                "WHERE transfer_id = ? " +
+                "AND user_from_id = ?";
+
+        jdbcTemplate.update(sql, transfer.getTransferStatusId(), transfer.getTransferId(), userId);
+
+        Transfer returnedTransfer = getTransferById(transfer.getTransferId(), userId);
+
+        if (returnedTransfer.getTransferStatusId() != transfer.getTransferStatusId()) {
+            return null;
+        } else {
+            return returnedTransfer;
+        }
+    }
 
     private Transfer mapRowToTransfer(SqlRowSet sqlRowSet) {
         Transfer transfer = new Transfer();
@@ -134,6 +161,7 @@ public class JdbcAccountDao implements AccountDao {
 
         return transfer;
     }
+
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
 

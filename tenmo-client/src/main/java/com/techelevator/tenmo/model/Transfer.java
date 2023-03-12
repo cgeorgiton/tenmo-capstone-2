@@ -19,7 +19,6 @@ public class Transfer {
     public Transfer (int transferStatusId, int transferTypeId) {
         this.transferStatusId = transferStatusId;
         this.transferTypeId = transferTypeId;
-
     }
 
     public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, String description, int transferStatusId, int transferTypeId, String toUsername, String fromUsername) {
