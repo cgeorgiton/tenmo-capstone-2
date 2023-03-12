@@ -35,7 +35,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Transfer addTransfer(Transfer transfer) {
+    public int addTransfer(Transfer transfer) {
 
         //create new transfer in database
         String sql = "INSERT INTO public.transfer(transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description) " +
@@ -47,9 +47,7 @@ public class JdbcAccountDao implements AccountDao {
                 transfer.getTransferTypeId(), transfer.getTransferStatusId(),
                 transfer.getUserFromId(), transfer.getUserToId(), transfer.getUserFromId(), transfer.getUserToId(), transfer.getAmount().doubleValue(), transfer.getDescription());
 
-        transfer.setTransferId(newTransferId);
-
-        return transfer;
+        return newTransferId;
     }
 
     @Override
