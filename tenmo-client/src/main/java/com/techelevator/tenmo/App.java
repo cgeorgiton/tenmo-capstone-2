@@ -159,8 +159,6 @@ public class App {
 
                     Transfer updatedRequest = accountService.updateRequest(selectedTransfer);
 
-                    System.out.println(updatedRequest.toString());
-
                     Transfer[] requestArray = new Transfer[]{updatedRequest};
 
                     consoleService.printTransfers(requestArray);
@@ -173,7 +171,6 @@ public class App {
                 System.out.println("\nInvalid Selection");
             }
         }
-
     }
 
     private void sendBucks() {
@@ -205,7 +202,7 @@ public class App {
                 Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
                 consoleService.printTransfers(updatedTransfer);
                 break;
-            } else if (userInput.equals("N")) {
+            } else if (userInput.equalsIgnoreCase("N")) {
                 break;
             } else {
                 System.out.println("\nPlease only enter Y for yes or N for no\n");
