@@ -136,7 +136,7 @@ public class App {
         consoleService.printTransactionSummary(send, selectedUser.getUsername());
 
         while (true) {
-             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
+            String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
                 Transfer updatedTransfer = accountService.makeTransfer(send);
                 consoleService.printTransferInfo(updatedTransfer, selectedUser, currentUser);
@@ -152,7 +152,7 @@ public class App {
     }
 
     private void requestBucks() {
-        Transfer request = new Transfer(PENDING,REQUEST);
+        Transfer request = new Transfer(PENDING, REQUEST);
 
         request.setUserToId(currentUser.getUser().getId());
 
@@ -181,20 +181,28 @@ public class App {
 
     private User selectUser() {
         User[] users = accountService.getAllUsers();
-        consoleService.printUsers(users, currentUser.getUser().getUsername());
+        consoleService.printUsers(users, currentUser);
 
         int userInput = -1;
-        boolean validInput = false;
+        User selectedUser = new User();
 
-        while (!validInput) {
-            userInput = consoleService.promptForInt("\nPlease select a user: ");
-            if (userInput <= 0 || userInput > users.length || currentUser.getUser().getUsername().equals(users[userInput - 1].getUsername())) {
+        while (true) {
+            userInput = consoleService.promptForInt("\nPlease select a user by their user-id: ");
+            if (userInput == currentUser.getUser().getId()) {
                 System.out.println("\nInvalid Selection");
             } else {
-                validInput = true;
+                for (User user : users) {
+                    if (user.getId() == userInput) {
+                        selectedUser = user;
+                    }
+                }
+                if (selectedUser.getUsername() != null) {
+                    break;
+                }
             }
         }
-        return users[userInput - 1];
+
+        return selectedUser;
     }
 
     private String getDescription() {

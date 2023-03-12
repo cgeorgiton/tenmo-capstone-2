@@ -99,12 +99,13 @@ public class ConsoleService {
         scanner.nextLine();
     }
 
-    public void printUsers(User[] users, String currentUsername) {
+    public void printUsers(User[] users, AuthenticatedUser currentUser) {
         System.out.println("\nAll available users:");
-        int i = 1;
         for (User user : users) {
-            System.out.println(String.format("\t%d: %s", i, user.getUsername()));
-            i++;
+            if (user.getId() == currentUser.getUser().getId()) {
+                continue;
+            }
+            System.out.println(String.format("\t%d: %s", user.getId(), user.getUsername()));
         }
     }
 
@@ -125,7 +126,7 @@ public class ConsoleService {
             String toUsername = accountService.getUserById(transfer.getUserToId()).getUsername();
 
             System.out.println(String.format("\nTransfer Details: \n" +
-                            "================\n" +
+                            "=================\n" +
                             "\tID: %d \n" +
                             "\tSent From: %s \n" +
                             "\tSent To: %s\n" +
@@ -145,7 +146,7 @@ public class ConsoleService {
         String toUsername = selectedUser.getUsername();
 
         System.out.println(String.format("\nTransfer Details: \n" +
-                        "================\n" +
+                        "=================\n" +
                         "\tID: %d \n" +
                         "\tSent From: %s \n" +
                         "\tSent To: %s\n" +
