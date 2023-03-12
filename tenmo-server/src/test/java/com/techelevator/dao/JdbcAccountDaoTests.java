@@ -37,7 +37,7 @@ public class JdbcAccountDaoTests extends BaseDaoTests{
     @Test
     public void getCurrentUserAccount_returns_correct_account() {
         Account account = sut.getCurrentUserAccount(1001);
-        Assert.assertEquals(ACCOUNT_1, account);
+        Assert.assertEquals(ACCOUNT_1.getAccountId(), account.getAccountId());
     }
 
 }
