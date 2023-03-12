@@ -119,6 +119,10 @@ public class JdbcAccountDao implements AccountDao {
         transfer.setDescription(sqlRowSet.getString("description"));
         transfer.setTransferStatusId(sqlRowSet.getInt("transfer_status_id"));
         transfer.setTransferTypeId(sqlRowSet.getInt("transfer_type_id"));
+        transfer.setToUsername(sqlRowSet.getString("username"));
+        transfer.setFromUsername(sqlRowSet.getString("username"));
+
+
 
         return transfer;
     }

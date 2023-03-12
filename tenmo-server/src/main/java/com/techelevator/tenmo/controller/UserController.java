@@ -32,7 +32,7 @@ public class UserController {
         return userDao.findAll();
     }
 
-    @RequestMapping(path = "/user-id", method = RequestMethod.GET)
+    @RequestMapping(path = "/user-id", method = RequestMethod.POST)
     public User getUsernameById(@RequestBody User user){
         return userDao.getUserById(user.getId());
     }

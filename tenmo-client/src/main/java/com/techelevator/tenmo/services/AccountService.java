@@ -47,7 +47,7 @@ public class AccountService {
         user.setUsername("name");
 
         try {
-            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "users/user-id", HttpMethod.GET, makeUserEntity(user), User.class);
+            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "users/user-id", HttpMethod.POST, makeUserEntity(user), User.class);
             returnedUser = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());

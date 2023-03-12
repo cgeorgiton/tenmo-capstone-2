@@ -10,6 +10,8 @@ public class Transfer {
     private String description;
     private int transferStatusId;
     private int transferTypeId;
+    private String toUsername;
+    private String fromUsername;
 
     public Transfer() {
     }
@@ -20,7 +22,7 @@ public class Transfer {
 
     }
 
-    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, String description, int transferStatusId, int transferTypeId) {
+    public Transfer(int transferId, BigDecimal amount, int userToId, int userFromId, String description, int transferStatusId, int transferTypeId, String toUsername, String fromUsername) {
         this.transferId = transferId;
         this.amount = amount;
         this.userToId = userToId;
@@ -28,6 +30,24 @@ public class Transfer {
         this.description = description;
         this.transferStatusId = transferStatusId;
         this.transferTypeId = transferTypeId;
+        this.toUsername = toUsername;
+        this.fromUsername = fromUsername;
+    }
+
+    public String getToUsername() {
+        return toUsername;
+    }
+
+    public void setToUsername(String toUsername) {
+        this.toUsername = toUsername;
+    }
+
+    public String getFromUsername() {
+        return fromUsername;
+    }
+
+    public void setFromUsername(String fromUsername) {
+        this.fromUsername = fromUsername;
     }
 
     public int getTransferId() {
@@ -86,16 +106,4 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    @Override
-    public String toString() {
-        return "Transfer{" +
-                "transferId=" + transferId +
-                ", amount=" + amount +
-                ", userToId=" + userToId +
-                ", userFromId=" + userFromId +
-                ", description='" + description + '\'' +
-                ", transferStatusId=" + transferStatusId +
-                ", transferTypeId=" + transferTypeId +
-                '}';
-    }
 }
