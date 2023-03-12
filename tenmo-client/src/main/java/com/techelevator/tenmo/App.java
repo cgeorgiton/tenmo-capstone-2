@@ -108,21 +108,25 @@ public class App {
                                                         "Enter your selection: ");
             if (userInput == 1) {
                 userInput = consoleService.promptForInt("\nPlease enter the transfer ID: ");
-                Transfer transfer = new Transfer(userInput, BigDecimal.ZERO, 0, 0, " ", 2, 2);
-
-                Transfer[] returnedTransfer = new Transfer[] {accountService.getTransferById(transfer)};
-                consoleService.printTransfers(returnedTransfer, users);
+                Transfer transfer = new Transfer(userInput, BigDecimal.ZERO, 0, 0, "", 2, 2, "", "");
+                Transfer returnedTransfer = accountService.getTransferById(transfer);
+                if (returnedTransfer.getUserToId() == 0) {
+                    System.out.println("\nThat transfer ID was invalid or you don't have access to this transfer history");
+                    break;
+                }
+                Transfer[] transferArray = new Transfer[]{returnedTransfer};
+                consoleService.printTransfers(transferArray);
                 break;
             } else if (userInput == 2) {
                 Transfer[] transfers = accountService.getAllTransfers();
-                consoleService.printTransfers(transfers, users);
+                consoleService.printTransfers(transfers);
                 break;
             } else {
                 System.out.println("\nInvalid Selection");
             }
         }
 
-        // TODO complete viewTransferHistory()
+        // TODO make sure you can only view Principal transfers
 
     }
 
@@ -134,12 +138,11 @@ public class App {
     }
 
     private void sendBucks() {
-        User[] users = accountService.getAllUsers();
         Transfer send = new Transfer(APPROVED, SEND);
 
         send.setUserFromId(currentUser.getUser().getId());
 
-        User selectedUser = selectUser(users);
+        User selectedUser = selectUser();
         send.setUserToId(selectedUser.getId());
 
         BigDecimal moneyInput = BigDecimal.ZERO;
@@ -161,7 +164,7 @@ public class App {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
                 Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
-                consoleService.printTransfers(updatedTransfer, users);
+                consoleService.printTransfers(updatedTransfer);
                 break;
                 // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
@@ -173,12 +176,11 @@ public class App {
     }
 
     private void requestBucks() {
-        User[] users = accountService.getAllUsers();
         Transfer request = new Transfer(PENDING, REQUEST);
 
         request.setUserToId(currentUser.getUser().getId());
 
-        User selectedUser = selectUser(users);
+        User selectedUser = selectUser();
         request.setUserFromId(selectedUser.getId());
 
         request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
@@ -201,7 +203,9 @@ public class App {
         // TODO complete requestBucks()
     }
 
-    private User selectUser(User[] users) {
+    private User selectUser() {
+        User[] users = accountService.getAllUsers();
+
         consoleService.printUsers(users, currentUser);
 
         int userInput = -1;

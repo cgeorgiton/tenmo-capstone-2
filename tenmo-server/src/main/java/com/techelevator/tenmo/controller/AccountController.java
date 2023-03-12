@@ -44,8 +44,9 @@ public class AccountController {
     }
 
     @RequestMapping(path = "/transfer/id", method = RequestMethod.POST)
-    public Transfer getTransferById(@RequestBody Transfer transfer) {
-        return accountDao.getTransferById(transfer.getTransferId());
+    public Transfer getTransferById(@RequestBody Transfer transfer, Principal principal) {
+        int principalId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getTransferById(transfer.getTransferId(), principalId);
     }
 
     // TODO filtered transfer

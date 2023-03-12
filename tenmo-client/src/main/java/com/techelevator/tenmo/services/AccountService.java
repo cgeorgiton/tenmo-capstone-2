@@ -42,7 +42,7 @@ public class AccountService {
     public User getUserById(int id) {
         User user = new User();
         User returnedUser = new User();
-
+        // TODO delete if we don't use this
         user.setId(id);
         user.setUsername("name");
 

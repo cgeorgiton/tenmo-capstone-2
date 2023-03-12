@@ -115,21 +115,10 @@ public class ConsoleService {
     }
 
 
-    public void printTransfers(Transfer[] transfers, User[] users) {
-        AccountService accountService = new AccountService("http://localhost:8080/");
+    public void printTransfers(Transfer[] transfers) {
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
             String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
-            String fromUsername = accountService.getUserById(transfer.getUserFromId()).getUsername();
-            String toUsername = accountService.getUserById(transfer.getUserToId()).getUsername();
-           /* for (User user : users) {
-                if (user.getId() == transfer.getUserToId()) {
-                    toUsername = user.getUsername();
-                }
-                if (user.getId() == transfer.getUserFromId()) {
-                    fromUsername = user.getUsername();
-                }
-            }*/
 
             System.out.println(String.format("\nTransfer Details: \n" +
                             "=================\n" +
@@ -140,7 +129,7 @@ public class ConsoleService {
                             "\tStatus: %s \n" +
                             "\tAmount: $%.2f \n" +
                             "\tDescription: %s\n", transfer.getTransferId(),
-                                                  fromUsername, toUsername,
+                                                  transfer.getFromUsername(), transfer.getToUsername(),
                                                   transferType, transferStatus,
                                                   transfer.getAmount(), transfer.getDescription()));
         }

@@ -73,10 +73,15 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public List<Transfer> listAllTransfers(int userId) {
-        String sql = "SELECT transfer.transfer_id, transfer.transfer_type_id, " +
-                "transfer.transfer_status_id, transfer.user_from_id, transfer.user_to_id, " +
-                "transfer.amount, transfer.description " +
-                "FROM transfer " +
+        String sql = "SELECT transfer.transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, " +
+                "transfer.account_from, transfer.account_to, transfer.user_from_id, transfer.user_to_id, " +
+                "transfer.amount, transfer.description, to_tenmo_user.username AS to_username, " +
+                "from_tenmo_user.username AS from_username " +
+                "FROM public.transfer " +
+                "INNER JOIN account AS from_account ON transfer.user_from_id = from_account.user_id " +
+                "INNER JOIN account AS to_account ON transfer.user_to_id = to_account.user_id " +
+                "INNER JOIN tenmo_user AS from_tenmo_user ON from_account.user_id = from_tenmo_user.user_id " +
+                "INNER JOIN tenmo_user AS to_tenmo_user ON to_account.user_id = to_tenmo_user.user_id " +
                 "WHERE transfer.user_from_id = ? " +
                 "OR transfer.user_to_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql,userId, userId);
@@ -96,11 +101,19 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Transfer getTransferById(int id) {
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description " +
+    public Transfer getTransferById(int transferId, int userId) {
+        String sql = "SELECT transfer.transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, " +
+                "transfer.account_from, transfer.account_to, transfer.user_from_id, transfer.user_to_id, " +
+                "transfer.amount, transfer.description, to_tenmo_user.username AS to_username, " +
+                "from_tenmo_user.username AS from_username " +
                 "FROM public.transfer " +
-                "WHERE transfer_id = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+                "INNER JOIN account AS from_account ON transfer.user_from_id = from_account.user_id " +
+                "INNER JOIN account AS to_account ON transfer.user_to_id = to_account.user_id " +
+                "INNER JOIN tenmo_user AS from_tenmo_user ON from_account.user_id = from_tenmo_user.user_id " +
+                "INNER JOIN tenmo_user AS to_tenmo_user ON to_account.user_id = to_tenmo_user.user_id " +
+                "WHERE transfer.transfer_id = ?" +
+                "AND (transfer.user_from_id = ? OR transfer.user_to_id = ?);";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId, userId, userId);
         Transfer transfer = new Transfer();
         if (results.next()) {
             transfer = mapRowToTransfer(results);
@@ -119,10 +132,8 @@ public class JdbcAccountDao implements AccountDao {
         transfer.setDescription(sqlRowSet.getString("description"));
         transfer.setTransferStatusId(sqlRowSet.getInt("transfer_status_id"));
         transfer.setTransferTypeId(sqlRowSet.getInt("transfer_type_id"));
-        transfer.setToUsername(sqlRowSet.getString("username"));
-        transfer.setFromUsername(sqlRowSet.getString("username"));
-
-
+        transfer.setToUsername(sqlRowSet.getString("to_username"));
+        transfer.setFromUsername(sqlRowSet.getString("from_username"));
 
         return transfer;
     }

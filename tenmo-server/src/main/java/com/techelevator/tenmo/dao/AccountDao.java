@@ -17,6 +17,6 @@ public interface AccountDao {
 
     public List<Transfer> listFiltered(String status);
 
-    public Transfer getTransferById(int id);
+    public Transfer getTransferById(int transferId, int userId);
 
 }
