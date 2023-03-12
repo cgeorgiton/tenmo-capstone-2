@@ -95,6 +95,19 @@ public class JdbcAccountDao implements AccountDao {
         return null; // TODO do we need filtered list
     }
 
+    @Override
+    public Transfer getTransferById(int id) {
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, user_from_id, user_to_id, amount, description " +
+                "FROM public.transfer " +
+                "WHERE transfer_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        Transfer transfer = new Transfer();
+        if (results.next()) {
+            transfer = mapRowToTransfer(results);
+        }
+        return transfer;
+    }
+
 
     private Transfer mapRowToTransfer(SqlRowSet sqlRowSet) {
         Transfer transfer = new Transfer();

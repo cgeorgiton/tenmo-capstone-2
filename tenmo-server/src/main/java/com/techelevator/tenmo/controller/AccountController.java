@@ -43,11 +43,13 @@ public class AccountController {
         return accountDao.listAllTransfers(userDao.findIdByUsername(principal.getName()));
     }
 
-
+    @RequestMapping(path = "/transfer/id", method = RequestMethod.GET)
+    public Transfer getTransferById(@RequestBody Transfer transfer) {
+        return accountDao.getTransferById(transfer.getTransferId());
+    }
 
     // TODO filtered transfer
     // TODO create request
-
 
 }
 

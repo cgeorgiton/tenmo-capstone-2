@@ -115,7 +115,7 @@ public class ConsoleService {
     }
 
 
-    public void printTransferList(Transfer[] transfers, User[] users) {
+    public void printTransfers(Transfer[] transfers, User[] users) {
 
         for (Transfer transfer : transfers) {
             String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
@@ -144,26 +144,6 @@ public class ConsoleService {
                                                   transferType, transferStatus,
                                                   transfer.getAmount(), transfer.getDescription()));
         }
-    }
-
-    public void printTransferInfo(Transfer transfer, User selectedUser, AuthenticatedUser currentUser) {
-        String transferType = transfer.getTransferTypeId() == 2 ? "Send" : "Request";
-        String transferStatus = transfer.getTransferStatusId() == 1 ? "Pending" : transfer.getTransferStatusId() == 2 ? "Approved" : "Rejected";
-        String fromUsername = currentUser.getUser().getUsername();
-        String toUsername = selectedUser.getUsername();
-
-        System.out.println(String.format("\nTransfer Details: \n" +
-                        "=================\n" +
-                        "\tID: %d \n" +
-                        "\tSent From: %s \n" +
-                        "\tSent To: %s\n" +
-                        "\tType: %s \n" +
-                        "\tStatus: %s \n" +
-                        "\tAmount: $%.2f \n" +
-                        "\tDescription: %s\n", transfer.getTransferId(),
-                                              fromUsername, toUsername,
-                                              transferType, transferStatus,
-                                              transfer.getAmount(), transfer.getDescription()));
     }
 
     public void printErrorMessage() {

@@ -10,6 +10,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+
 public class AccountService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -92,8 +94,26 @@ public class AccountService {
         }
 
         return transfers;
+    }
 
-        // TODO check that transfers work
+    public Transfer getTransferById(int id) {
+        Transfer transfer = new Transfer(1,1);
+        Transfer returnedTransfer = new Transfer();
+        transfer.setTransferId(id);
+        transfer.setUserToId(0);
+        transfer.setUserFromId(0);
+        transfer.setAmount(BigDecimal.ZERO);
+        transfer.setDescription("");
+
+        try {
+            ResponseEntity<Transfer> response =
+                    restTemplate.exchange(baseUrl + "accounts/transfer/id",
+                            HttpMethod.GET, makeTransferEntity(transfer), Transfer.class);
+            returnedTransfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return returnedTransfer;
     }
 
     private HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
@@ -115,6 +135,4 @@ public class AccountService {
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
     }
-
-
 }

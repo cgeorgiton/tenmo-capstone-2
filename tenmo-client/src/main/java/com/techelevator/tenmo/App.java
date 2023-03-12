@@ -100,13 +100,26 @@ public class App {
     }
 
     private void viewTransferHistory() {
-        Transfer[] transfers = accountService.getAllTransfers();
-        /*for (Transfer transfer : transfers) {
-            System.out.println(transfer.toString());
-            System.out.println();
-        }*/
         User[] users = accountService.getAllUsers();
-        consoleService.printTransferList(transfers, users);
+
+        while (true) {
+            int userInput = consoleService.promptForInt("\n1. Search by transfer ID\n" +
+                                                        "2. View all transfers\n\n" +
+                                                        "Enter your selection: ");
+            if (userInput == 1) {
+                userInput = consoleService.promptForInt("\nPlease enter the transfer ID: ");
+                Transfer[] returnedTransfer = new Transfer[] {accountService.getTransferById(userInput)};
+                consoleService.printTransfers(returnedTransfer, users);
+                break;
+            } else if (userInput == 2) {
+                Transfer[] transfers = accountService.getAllTransfers();
+                consoleService.printTransfers(transfers, users);
+                break;
+            } else {
+                System.out.println("\nInvalid Selection");
+            }
+        }
+
         // TODO complete viewTransferHistory()
 
     }
@@ -117,11 +130,12 @@ public class App {
     }
 
     private void sendBucks() {
+        User[] users = accountService.getAllUsers();
         Transfer send = new Transfer(APPROVED, SEND);
 
         send.setUserFromId(currentUser.getUser().getId());
 
-        User selectedUser = selectUser();
+        User selectedUser = selectUser(users);
         send.setUserToId(selectedUser.getId());
 
         BigDecimal moneyInput = BigDecimal.ZERO;
@@ -142,8 +156,8 @@ public class App {
         while (true) {
             String userInput = consoleService.promptForString("Do you want to complete this transaction? (Y/N): ");
             if (userInput.equalsIgnoreCase("Y")) {
-                Transfer updatedTransfer = accountService.makeTransfer(send);
-                consoleService.printTransferInfo(updatedTransfer, selectedUser, currentUser);
+                Transfer[] updatedTransfer = new Transfer[]{accountService.makeTransfer(send)};
+                consoleService.printTransfers(updatedTransfer, users);
                 break;
                 // TODO make sure transfer prints properly
             } else if (userInput.equals("N")) {
@@ -155,11 +169,12 @@ public class App {
     }
 
     private void requestBucks() {
+        User[] users = accountService.getAllUsers();
         Transfer request = new Transfer(PENDING, REQUEST);
 
         request.setUserToId(currentUser.getUser().getId());
 
-        User selectedUser = selectUser();
+        User selectedUser = selectUser(users);
         request.setUserFromId(selectedUser.getId());
 
         request.setAmount(consoleService.promptForBigDecimal("\nHow much money do you want to request?: "));
@@ -182,8 +197,7 @@ public class App {
         // TODO complete requestBucks()
     }
 
-    private User selectUser() {
-        User[] users = accountService.getAllUsers();
+    private User selectUser(User[] users) {
         consoleService.printUsers(users, currentUser);
 
         int userInput = -1;
